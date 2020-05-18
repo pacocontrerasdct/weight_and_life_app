@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{ titleText | safe }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+  <div class="container">
+    {% include header ignore missing %}
+    {% include menu ignore missing %}
+    {% include page ignore missing %}
+    {% include footer ignore missing %}
+  </div>
+</body>
+</html>
