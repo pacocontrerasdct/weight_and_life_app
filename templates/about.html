@@ -1,1 +1,13 @@
-<p>About</p>
+{% extends "layout.html" %}
+{% block body %}
+<div class="row">
+  <div class="col-xs-12 col-md-6">
+    <h2>{% block headerText %}{{ headerText | safe }}{% endblock %}</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla condimentum dictum vulputate. Maecenas laoreet posuere dictum. Duis eget vulputate ligula. Morbi ligula quam, lobortis eu orci sit amet, pharetra finibus tortor. Praesent vel semper mauris. Ut dictum maximus dui a posuere. Vivamus ut nunc dolor. Cras eget tortor quis leo pharetra aliquam id a lacus. Integer in cursus elit.</p>
+    <p>Sed commodo, nulla a malesuada convallis, metus lorem congue ligula, a vulputate eros magna nec massa. In lobortis purus dolor, ut sodales dolor pulvinar non. Aliquam erat volutpat. Donec maximus finibus lorem. Quisque laoreet purus sodales velit dictum, a tempus ex semper. Praesent rhoncus commodo risus porttitor tincidunt. Vivamus eu porttitor lacus.</p>
+  </div>
+  <div class="col-xs-12 col-md-6">
+    <img src="https://cdn1.vectorstock.com/i/1000x1000/12/15/tree-of-life-vector-19371215.jpg" class="img-responsive" alt="Tree of life">
+  </div>
+</div>
+{% endblock %}

@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>{% block title %}{{ titleText | safe }}{% endblock %}</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{ titleText | safe }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
+
   <div class="container">
-    {% include header ignore missing %}
-    {% include menu ignore missing %}
-    {% include page ignore missing %}
-    {% include footer ignore missing %}
+
+    <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+    <div class="row">
+      <div class="col-xs-18 col-md-12">
+        <header><h1 class="logo">Life & Weight</h1></header>
+        
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/" class="btn btn-default" role="button">Home</a></li>
+              <li><a href="{{ url_for('historical') }}" class="btn btn-default" role="button">Historical</a></li>
+              <li><a href="{{ url_for('about') }}" class="btn btn-default" role="button">About</a></li>
+              <li><a href="{{ url_for('login') }}" class="btn btn-default" role="button">Access Area</a></li>
+            </ul>
+        </nav>
+      </div>
+    </div>
+
+    {% block body %}{% endblock %}
+
+    <div class="row">
+      <div class="col-xs-18 col-md-12">
+        <footer><p>This is footer</p></footer>
+      </div>
+    </div>
   </div>
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

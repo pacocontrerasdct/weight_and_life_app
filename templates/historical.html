@@ -1,1 +1,28 @@
-<p>Historical</p>
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="row">
+  <div class="col-xs-12 col-md-8">
+    <h2>{% block headerText %}{{ headerText | safe }}{% endblock %}</h2>
+    <img src="https://www.pi-datametrics.com/wp-content/uploads/2019/03/Vegetarian-Vegan-and-Gluten-Free-Chart-Annotated.png" class="img-responsive" alt="Plot chart for ">
+  </div>
+  <div class="col-xs-12 col-md-4">
+    <aside>
+      <h3>Select a range of dates to show in the graphic</h3>
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Starting Date</label>
+          <input type="date" class="form-control" id="fromDate1" placeholder="From">
+          <label for="exampleInputPassword1">Ending Date</label>
+          <input type="date" class="form-control" id="toDate1" placeholder="To">
+          <p class="help-block">Use forward slash to format dates.<br/>Ie.: 2000/01/01</p>
+        </div>
+        <button type="submit" class="btn btn-default">Show</button>
+      </form>
+    </aside>
+  </div>
+</div>
+
+
+
+{% endblock %}

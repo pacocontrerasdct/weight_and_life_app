@@ -1,1 +1,40 @@
-<p>Home</p>
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="row">
+  <div class="col-xs-12 col-md-8">
+    <h2>{% block headerText %}{{ headerText | safe }}{% endblock %}</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed urna nunc, venenatis vitae tempus a, porttitor sed massa. Nunc convallis nisi vel nulla placerat bibendum. Cras eros ipsum, placerat vel euismod et, bibendum id velit. Curabitur ipsum diam, dapibus a pellentesque vel, posuere sit amet arcu. Donec laoreet suscipit velit sit amet egestas. In feugiat blandit tellus a faucibus. Pellentesque elit sem, elementum vel nunc ac, varius vestibulum urna. Suspendisse sit amet iaculis lectus.</p>
+    <p>Praesent pulvinar vulputate mi, nec porttitor mauris. Sed pharetra quis est cursus euismod. Ut non mi vitae tortor consectetur pulvinar. Fusce nisl ante, vestibulum eu tellus non, sagittis auctor eros. Cras fringilla magna vitae tincidunt ullamcorper. Aliquam efficitur, libero id vulputate elementum, nunc turpis porttitor mi, non blandit quam erat quis dui. Aliquam venenatis velit vulputate, congue lacus sed, laoreet odio. Nunc est enim, dictum ac consequat eu, sodales interdum magna.</p>      
+
+
+      
+
+
+
+  </div>
+
+  <div class="col-xs-12 col-md-4">
+    <aside>
+      <h3>Subscribe to my newsletter</h3>
+      <p>I promise you won't receive more than one email per month.</p>
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+          <label for="exampleIAmNotARobot1">Human verification</label>
+            <div class="checkbox">
+                <input type="checkbox" required> I am not a robot
+                <p class="help-block hidden">Confirm that you are not a robot, please!</p>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </aside>
+  </div>
+</div>
+
+
+{% endblock %}
