@@ -1,7 +1,19 @@
 from flask import Flask, render_template, redirect, url_for, request
 from meta_tags_dict import *
 
+from database.database import database_bp
+
+
 app=Flask(__name__)
+
+app.register_blueprint(database_bp)
+
+# SQLALCHEMY_DATABASE_URI is global variable at the config file
+# We need to set it with the path to our db
+app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get("LOCAL_DATABASE_URL")
+
+
+
 
 @app.route("/")
 def index():
