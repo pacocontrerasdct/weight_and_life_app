@@ -10,7 +10,7 @@ class Config:
   # General Flask config
   SECRET_KEY = environ.get('SECRET_KEY')
   FLASK_ENV = environ.get('FLASK_ENV')
-  FLASK_APP = 'app.py'
+  FLASK_APP = 'wsgi.py'
   FLASK_DEBUG = 1
 
   # Database
