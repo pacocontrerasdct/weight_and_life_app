@@ -1,0 +1,138 @@
+from . import db
+
+class Admin(db.Model):
+  """Data model for Admin"""
+  __tablename__='administrators'
+
+  id=db.Column(db.Integer,
+                  primary_key=True)
+
+  name=db.Column(db.String(64),
+                        index=False,
+                        unique=True,
+                        nullable=False)
+  
+  email=db.Column(db.String(120),
+                        index=True,
+                        unique=True,
+                        nullable=False)
+
+  password=db.Column(db.String(80),
+                        index=True,
+                        unique=True,
+                        nullable=False)
+
+  created=db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=False)
+
+  last_login=db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=False)                        
+
+  full_access=db.Column(db.Boolean,
+                        index=False,
+                        unique=False,
+                        nullable=False) 
+
+  def __repr__(self):
+    return '<Admin {}>'.format(self.name)
+
+
+class Subscriptor(db.Model):
+  """Data model for Newsletter subscriptors"""
+  __tablename__='subscriptors'
+
+  id=db.Column(db.Integer,
+                  primary_key=True)
+
+  name=db.Column(db.String(64),
+                        index=False,
+                        unique=True,
+                        nullable=False)
+  
+  email=db.Column(db.String(80),
+                        index=True,
+                        unique=True,
+                        nullable=False)
+
+  created=db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=False)                     
+
+  def __repr__(self):
+    return '<Subscriptor {}>'.format(self.name)
+
+class Weight(db.Model):
+  """Data model for weights"""
+  __tablename__='weights'
+
+  id=db.Column(db.Integer,
+                  primary_key=True)
+
+  admin_id=db.Column(db.Integer,
+                  db.ForeignKey(Admin.id),
+                  nullable=False)
+
+  created=db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=False)
+
+  weight=db.Column(db.Float,
+                      index=False,
+                      unique=False,
+                      nullable=False)
+
+  weight_date=db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=False)
+  
+  def __repr__(self):
+    return '<Weight {}>'.format(self.weight)
+
+
+class Trip(db.Model):
+  """Data model for trips"""
+  __tablename__='trips'
+
+  id=db.Column(db.Integer,
+                  primary_key=True)
+
+  admin_id=db.Column(db.Integer,
+                  db.ForeignKey(Admin.id),
+                  nullable=False)
+
+  created=db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=False)
+
+  starting_date=db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=False)
+
+  ending_date=db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=False)
+
+  from_airport=db.Column(db.String(120),
+                        index=False,
+                        unique=False,
+                        nullable=False)
+
+  to_airport=db.Column(db.String(120),
+                        index=False,
+                        unique=False,
+                        nullable=False)
+
+  
+  def __repr__(self):
+    return '<Trip {}>'.format(self.starting_date)
+

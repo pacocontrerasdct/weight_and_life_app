@@ -103,3 +103,32 @@ footer {
   margin-top: 30px;
   padding: 10px;
 }
+
+/*flash categories styles*/
+.error {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  margin: 0 10px;
+  padding: 5px;
+}
+
+.message {
+  background-color: yellowgreen;
+  color: white;
+  font-style: italic;
+  margin: 0 10px;
+  padding: 5px;
+}
+
+.warning {
+  background-color: sandybrown;
+  color: white;
+  font-weight: bold;
+  margin: 0 10px;
+  padding: 5px;
+}
+
+
+
+
