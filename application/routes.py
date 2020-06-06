@@ -6,6 +6,8 @@ from . import meta_tags_dict as meta
 
 
 @app.route("/")
+@app.route("/index")
+@app.route("/home")
 def index():
   titleText=meta.pageTitleDict["index"]
   headerText=meta.headerDict["index"]
