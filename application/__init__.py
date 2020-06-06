@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 # Create an specific postgresql object to use on our app
 # Globally accessible libraries/ plugins
 db=SQLAlchemy()
+login_manager=LoginManager()
 
 
 def create_app():
@@ -15,6 +17,7 @@ def create_app():
 
   # Initialise Plugins
   db.init_app(app)
+  login_manager.init_app(app)
 
   # Any part of our app which is not imported, or registered
   # within the 'with app.app_context()' block
@@ -22,12 +25,15 @@ def create_app():
   with app.app_context():
     # Include our Routes
     from . import routes
+    from . import auth
     
     # Register Blueprints
-    # app.register_blueprint(auth.auth_bp)
-    # app.register_blueprint(admin.admin_bp)
+    # app.register_blueprint(routes.main_bp)
+    app.register_blueprint(auth.auth_bp)
 
-    db.create_all() # Create database tables for our data models
+    # Create database models
+    db.create_all()
+
     return app
 
 
