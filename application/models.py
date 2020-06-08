@@ -32,18 +32,23 @@ class Admin(UserMixin, db.Model):
   last_login=db.Column(db.DateTime,
                         index=False,
                         unique=False,
+                        nullable=True)
+
+  last_logout=db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
                         nullable=True)                        
 
   full_access=db.Column(db.Boolean,
                         index=False,
                         unique=False,
-                        nullable=False) 
+                        nullable=True) 
   
-  def set_password(self.password):
+  def set_password(self, password):
     """Create hashed password."""
     self.password = generate_password_hash(password, method='sha256')
 
-  def check_password(self.password):
+  def check_password(self, password):
     """Check hashed password"""
     return check_password_hash(self.password, password)
 

@@ -1,9 +1,10 @@
+"""Routes for core application."""
 from flask import render_template, redirect, url_for, request, flash
+from flask_login import current_user, login_required, logout_user
 from datetime import datetime as dt
 from flask import current_app as app
 from .models import db, Admin, Subscriptor, Weight, Trip
 from . import meta_tags_dict as meta
-
 
 @app.route("/")
 @app.route("/index")
@@ -62,42 +63,60 @@ def about():
 
 
 
-@app.route("/login")
-def login():
-  titleText=meta.pageTitleDict["access"]
-  headerText=meta.headerDict["access"]
+# @app.route("/login")
+# def login():
+#   titleText=meta.pageTitleDict["access"]
+#   headerText=meta.headerDict["access"]
 
-  return render_template("access-area.html", titleText=titleText, headerText=headerText)
+#   return render_template("access-area.html", titleText=titleText, headerText=headerText)
 
 
-@app.route("/private", methods=['POST'])
+@app.route("/private", methods=['GET','POST'])
+@login_required
 def private():
   titleText=meta.pageTitleDict["private"]
   headerText=meta.headerDict["private"]
 
 
-  if request.method == 'POST':
+  # if request.method == 'POST':
 
-    loginEmail_=request.form["loginEmail"]
-    loginPassword_=request.form["loginPassword"]
+  #   loginEmail_=request.form["loginEmail"]
+  #   loginPassword_=request.form["loginPassword"]
 
-    if loginEmail_ and loginPassword_:
+  #   if loginEmail_ and loginPassword_:
 
-      # Check if user is in the database and has admin rights
-      isAdminUser = Admin.query.filter(Admin.email == loginEmail_ and Admin.password == loginPassword_ and Admin.full_access == "true" ).first()
+  #     # Check if user is in the database and has admin rights
+  #     isAdminUser = Admin.query.filter(Admin.email == loginEmail_ and Admin.password == loginPassword_ and Admin.full_access == "true" ).first()
       
-      if isAdminUser:
+  #     if isAdminUser:
 
-        messageText="Welcome {}".format(isAdminUser.name)
+  messageText="Welcome {}".format(current_user.name)
 
-        # Update login 
-        isAdminUser.last_login = dt.now()
-        db.session.commit()
+  #       # Update login 
+  #       isAdminUser.last_login = dt.now()
+  #       db.session.commit()
 
-        return render_template("private.html", titleText=titleText, headerText=headerText, messageText=messageText)
-      else:
+  return render_template("private.html", 
+                          titleText=titleText,
+                          headerText=headerText, 
+                          messageText=messageText,
+                          current_user=current_user)
+  #     else:
 
-        flash('User name or password incorrect. Try it again!', 'error')
-        return redirect(url_for('login'))
+  #       flash('User name or password incorrect. Try it again!', 'error')
+  #       return redirect(url_for('login'))
 
-  return redirect(url_for('login'))
+  # return redirect(url_for('login'))
+
+# @app.route("/logout")
+# @login_required
+# def logout():
+#   """User logout logic"""
+#   logout_user()
+#   return redirect(url_for('auth_bp.login'))
+
+
+
+
+
+

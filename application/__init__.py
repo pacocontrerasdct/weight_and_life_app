@@ -6,7 +6,7 @@ from flask_login import LoginManager
 # Globally accessible libraries/ plugins
 db=SQLAlchemy()
 login_manager=LoginManager()
-
+login_manager.login_view = "auth.login"
 
 def create_app():
   """Construct the core application"""
@@ -23,13 +23,14 @@ def create_app():
   # within the 'with app.app_context()' block
   # effectively does not exist
   with app.app_context():
-    # Include our Routes
-    from . import routes
-    from . import auth
     
     # Register Blueprints
-    # app.register_blueprint(routes.main_bp)
-    app.register_blueprint(auth.auth_bp)
+    from .auth import auth_bp as auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+
+    # Include our Routes
+    from . import routes, models
+    from .auth import auth
 
     # Create database models
     db.create_all()
