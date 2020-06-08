@@ -1,15 +1,17 @@
 from . import db
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
-class Admin(db.Model):
+class Admin(UserMixin, db.Model):
   """Data model for Admin"""
   __tablename__='administrators'
 
   id=db.Column(db.Integer,
                   primary_key=True)
 
-  name=db.Column(db.String(64),
+  name=db.Column(db.String(100),
                         index=False,
-                        unique=True,
+                        unique=False,
                         nullable=False)
   
   email=db.Column(db.String(120),
@@ -17,28 +19,42 @@ class Admin(db.Model):
                         unique=True,
                         nullable=False)
 
-  password=db.Column(db.String(80),
+  password=db.Column(db.String(200),
                         index=True,
-                        unique=True,
+                        unique=False,
                         nullable=False)
 
   created=db.Column(db.DateTime,
                         index=False,
                         unique=False,
-                        nullable=False)
+                        nullable=True)
 
   last_login=db.Column(db.DateTime,
                         index=False,
                         unique=False,
-                        nullable=False)                        
+                        nullable=True)
+
+  last_logout=db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=True)                        
 
   full_access=db.Column(db.Boolean,
                         index=False,
                         unique=False,
-                        nullable=False) 
+                        nullable=True) 
+  
+  def set_password(self, password):
+    """Create hashed password."""
+    self.password = generate_password_hash(password, method='sha256')
+
+  def check_password(self, password):
+    """Check hashed password"""
+    return check_password_hash(self.password, password)
 
   def __repr__(self):
     return '<Admin {}>'.format(self.name)
+
 
 
 class Subscriptor(db.Model):
@@ -50,7 +66,7 @@ class Subscriptor(db.Model):
 
   name=db.Column(db.String(64),
                         index=False,
-                        unique=True,
+                        unique=False,
                         nullable=False)
   
   email=db.Column(db.String(80),

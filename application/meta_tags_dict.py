@@ -1,17 +1,43 @@
-pageTitleDict = {
-  "index": "Life and weight balance",
-  "historical": "Historical graphic - Life and weight balance",
-  "about": "About this project - Life and weight balance",
-  "trips": "Trips to Spain - Life and weight balance",
-  "access": "Access to personal area - Life and weight balance",
-  "private": "Private Area - Life and weight balance",
-}
+metaTags = {
 
-headerDict = {
-  "index": "Welcome to my index",
-  "historical": "Chart with historic data",
-  "about": "About this site",
-  "trips": "Trips",
-  "access": "Access to private area",
-  "private": "Private area",
+  "index": {
+    "pageTitleDict": "Home",
+    "headerDict": "Home",
+  },
+
+  "historical": {
+    "pageTitleDict": "Historical graphic",
+    "headerDict": "Chart with historic data",
+  },
+
+  "trips": {
+    "pageTitleDict": "Trips to Spain",
+    "headerDict": "Trips",
+  },
+
+  "about": {
+    "pageTitleDict": "About this project",
+    "headerDict": "About this site",
+  },
+
+  "login": {
+    "pageTitleDict": "Login page",
+    "headerDict": "Access to your dashboard",
+  },
+
+  "signup": {
+    "pageTitleDict": "Signup as administrator",
+    "headerDict": "Register in our site",
+  },
+
+  "private": {
+    "pageTitleDict": "Private area",
+    "headerDict": "Welcome to your private area",
+  },
+
+  "dashboard": {
+    "pageTitleDict": "Your personal dashboard",
+    "headerDict": "Dashboard - Manage your account",
+  },
+
 }

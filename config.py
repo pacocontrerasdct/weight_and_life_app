@@ -13,6 +13,11 @@ class Config:
   FLASK_APP = 'wsgi.py'
   FLASK_DEBUG = 1
 
+  # Static Assets
+  STATIC_FOLDER = 'static'
+  TEMPLATES_FOLDER = 'templates'
+  COMPRESSOR_DEBUG = environ.get('COMPRESSOR_DEBUG')
+
   # Database
   SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
   SQLALCHEMY_ECHO = True
