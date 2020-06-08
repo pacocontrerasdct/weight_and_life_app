@@ -29,7 +29,7 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
     # Include our Routes
-    from . import routes, models
+    from . import api, models
     from .auth import auth
 
     # Create database models
