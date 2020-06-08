@@ -1,13 +1,12 @@
 """Routes for user authentication."""
-from . import auth_bp
 from flask import Blueprint, render_template, redirect, request, flash, session, url_for
-from . import login_manager
+from . import auth_bp
+from application import login_manager
 from flask_login import login_required, logout_user, current_user, login_user
-from flask import current_app as app
 from .forms import LoginForm, SignupForm
+from application.meta_tags_dict import metaTags
 from application.models import db, Admin
 from datetime import datetime as dt
-from application.meta_tags_dict import metaTags
 
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
