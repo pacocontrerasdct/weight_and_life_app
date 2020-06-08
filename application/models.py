@@ -66,7 +66,7 @@ class Subscriptor(db.Model):
 
   name=db.Column(db.String(64),
                         index=False,
-                        unique=True,
+                        unique=False,
                         nullable=False)
   
   email=db.Column(db.String(80),

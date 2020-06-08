@@ -7,6 +7,7 @@ from flask import current_app as app
 from .forms import LoginForm, SignupForm
 from application.models import db, Admin
 from datetime import datetime as dt
+from application.meta_tags_dict import metaTags
 
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
@@ -17,6 +18,8 @@ def signup():
   GET: Serve sign-up page.
   POST: Validate form, create account, redirect admin to private area.
   """
+  titleText=metaTags['signup']['pageTitleDict']
+  headerText=metaTags['signup']['headerDict']
   access=False
   form = SignupForm()
 
@@ -42,8 +45,7 @@ def signup():
     # If admin exists show error message
     flash('A admin user already exists with that email address.', 'error')
 
-  # return redirect(url_for('index'))
-  return render_template("signup.html", form=form)
+  return render_template("signup.html", form=form, titleText=titleText, headerText=headerText)
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -54,8 +56,12 @@ def login():
   GET: Serve log-in page
   POST: Validate form and redirect admin to private area
   """
+  titleText=metaTags['login']['pageTitleDict']
+  headerText=metaTags['login']['headerDict']
+
   if current_user.is_authenticated:
-    return render_template("private.html")
+    # return render_template("private.html", titleText=titleText, headerText=headerText)
+    return redirect(url_for('private'))
 
   form = LoginForm()
 
@@ -73,7 +79,7 @@ def login():
     flash ('Invalid user name or password', 'error')
     return redirect(url_for('auth_bp.login'))
 
-  return render_template("login.html", form=form)
+  return render_template("login.html", form=form, titleText=titleText, headerText=headerText)
 
 
 @auth_bp.route('/logout', methods=['POST'])
