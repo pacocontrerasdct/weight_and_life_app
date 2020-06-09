@@ -22,12 +22,15 @@
               <li><a href="{{ url_for('historical') }}" class="btn btn-default" role="button">Historical</a></li>
               <li><a href="{{ url_for('about') }}" class="btn btn-default" role="button">About</a></li>
               <li><a href="{{ url_for('auth_bp.login') }}" class="btn btn-default" role="button">Access Area</a></li>
+              <li><a href="{{ url_for('dashboard_bp.dashboard') }}" class="btn btn-default" role="button">Dash</a></li>
             </ul>
         </nav>
       </div>
     </div>
 
-    {% block body %}{% endblock %}
+    {% block body %}
+
+    {% endblock %}
 
     <div class="row">
       <div class="col-xs-18 col-md-12">

@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <h2>{% block headerText %}{{ current_user.name | safe }}, {{ headerText | safe }}{% endblock %}</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-md-4">
+    <h2>Side menu</h2>
+
+    <form action="{{ url_for('auth_bp.logout') }}" method="POST">
+
+      <button type="submit" class="btn btn-default">
+        logout
+      </button>
+
+    </form>
+
+  </div>
+  <div class="col-xs-12 col-md-4">
+    <h2>My stats</h2>
+  </div>
+  <div class="col-xs-12 col-md-4">
+    
+    <form action="{{ url_for('.dashboard') }}" method="POST">
+      {{ form1.csrf_token }}
+      
+      <div class="form-group">
+        {{ form1.weight.label }}
+        {{ form1.weight(class='form-control', placeholder='0.000') }}
+      </div>
+
+      <div class="form-group">
+        {{ form1.weightDate.label }}
+        {{ form1.weightDate(class='form-control', placeholder='2000-01-01') }}
+      </div>
+
+      {{ form1.submit(class='btn btn-default') }}
+
+    </form>
+
+    <form action="{{ url_for('.dashboard') }}" method="POST">
+      {{ form2.csrf_token }}
+      
+      <div class="form-group">
+        {{ form2.txtFile.label }}
+        {{ form2.txtFile(class='form-control', placeholder='example.txt') }}
+      </div>
+
+      {{ form2.submit(class='btn btn-default') }}
+
+    </form>
+    
+    <!-- UX - Messages, warnings or errors -->
+    <div class="margin-top-form">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <span class="{{ category }}">{{ message }}</span>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% if form1.weight.errors %}
+          {% for error in form1.weight.errors %}
+          <span class="error">{{ error }}</span>
+          {% endfor %}
+      {% endif %}
+
+      {% if form1.weightDate.errors %}
+          {% for error in form1.weightDate.errors %}
+          <span class="error">{{ error }}</span>
+          {% endfor %}
+      {% endif %}
+
+      {% if form2.txtFile.errors %}
+          {% for error in form2.txtFile.errors %}
+          <span class="error">{{ error }}</span>
+          {% endfor %}
+      {% endif %}
+      
+    </div>
+
+  </div>
+</div>
+{% endblock %}
