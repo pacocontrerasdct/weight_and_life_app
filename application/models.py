@@ -1,6 +1,7 @@
 from . import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 class Admin(UserMixin, db.Model):
   """Data model for Admin"""
@@ -27,7 +28,8 @@ class Admin(UserMixin, db.Model):
   created=db.Column(db.DateTime,
                         index=False,
                         unique=False,
-                        nullable=True)
+                        nullable=True,
+                        default=datetime.utcnow())
 
   last_login=db.Column(db.DateTime,
                         index=False,
@@ -77,7 +79,8 @@ class Subscriptor(db.Model):
   created=db.Column(db.DateTime,
                         index=False,
                         unique=False,
-                        nullable=False)                     
+                        nullable=False,
+                        default=datetime.utcnow())                     
 
   def __repr__(self):
     return '<Subscriptor {}>'.format(self.name)
@@ -96,7 +99,8 @@ class Weight(db.Model):
   created=db.Column(db.DateTime,
                         index=False,
                         unique=False,
-                        nullable=False)
+                        nullable=False,
+                        default=datetime.utcnow())
 
   weight=db.Column(db.Float,
                       index=False,
@@ -126,7 +130,8 @@ class Trip(db.Model):
   created=db.Column(db.DateTime,
                         index=False,
                         unique=False,
-                        nullable=False)
+                        nullable=False,
+                        default=datetime.utcnow())
 
   starting_date=db.Column(db.DateTime,
                         index=False,

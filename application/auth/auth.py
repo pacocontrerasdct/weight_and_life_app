@@ -32,8 +32,7 @@ def signup():
       admin = Admin(name=form.name.data,
                     email=form.email.data,
                     full_access=access,
-                    created=dt.now(),
-                    last_login=dt.now())
+                    last_login=dt.utcnow())
       admin.set_password(form.password.data)
       db.session.add(admin)
       db.session.commit()
@@ -59,7 +58,6 @@ def login():
   headerText=metaTags['login']['headerDict']
 
   if current_user.is_authenticated:
-    # return render_template("private.html", titleText=titleText, headerText=headerText)
     return redirect(url_for('private'))
 
   form = LoginForm()
@@ -68,7 +66,7 @@ def login():
     admin = Admin.query.filter_by(email=form.email.data).first()
     if admin and admin.check_password(password=form.password.data):
       
-      admin.last_login=dt.now()
+      admin.last_login=dt.utcnow()
       db.session.commit()
 
       login_user(admin)
@@ -85,7 +83,7 @@ def login():
 @login_required
 def logout():
   """Logout user deleting session"""
-  current_user.last_logout=dt.now()
+  current_user.last_logout=dt.utcnow()
   db.session.commit()
 
   logout_user()

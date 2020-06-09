@@ -1,7 +1,7 @@
 """Routes for core application."""
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required, logout_user
-from datetime import datetime as dt
+# from datetime import datetime as dt
 from flask import current_app as app
 from .models import db, Admin, Subscriptor, Weight, Trip
 from .meta_tags_dict import metaTags
@@ -32,8 +32,7 @@ def thank_you():
         return redirect(url_for('index'))
 
       newSubscriptor = Subscriptor(name=userName_,
-                      email=userEmail_,
-                      created=dt.now())
+                      email=userEmail_)
       db.session.add(newSubscriptor)
       db.session.commit()
 
