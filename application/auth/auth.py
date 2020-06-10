@@ -15,7 +15,7 @@ def signup():
   Administrators sign-up page
 
   GET: Serve sign-up page.
-  POST: Validate form, create account, redirect admin to private area.
+  POST: Validate form, create account, redirect admin to dashboard area.
   """
   titleText=metaTags['signup']['pageTitleDict']
   headerText=metaTags['signup']['headerDict']
@@ -38,7 +38,7 @@ def signup():
       db.session.commit()
       login_user(admin)
 
-      return redirect(url_for('private'))
+      return redirect(url_for('dashboard_bp.dashboard'))
 
     # If admin exists show error message
     flash('A admin user already exists with that email address.', 'error')
@@ -52,13 +52,13 @@ def login():
   Log-in page for registered administrators
 
   GET: Serve log-in page
-  POST: Validate form and redirect admin to private area
+  POST: Validate form and redirect admin to dashboard area
   """
   titleText=metaTags['login']['pageTitleDict']
   headerText=metaTags['login']['headerDict']
 
   if current_user.is_authenticated:
-    return redirect(url_for('private'))
+    return redirect(url_for('dashboard_bp.dashboard'))
 
   form = LoginForm()
 
@@ -71,7 +71,7 @@ def login():
 
       login_user(admin)
       next_page = request.args.get('next')
-      return redirect(next_page or url_for('private'))
+      return redirect(next_page or url_for('dashboard_bp.dashboard'))
 
     flash ('Invalid user name or password', 'error')
     return redirect(url_for('auth_bp.login'))

@@ -56,18 +56,6 @@ def about():
   return render_template("about.html", titleText=titleText, headerText=headerText)
 
 
-@app.route("/private", methods=['GET','POST'])
-@login_required
-def private():
-  titleText=metaTags["private"]["pageTitleDict"]
-  headerText=metaTags["private"]["headerDict"]
-
-  return render_template("private.html", 
-                          titleText=titleText,
-                          headerText=headerText, 
-                          current_user=current_user)
-
-
 
 
 

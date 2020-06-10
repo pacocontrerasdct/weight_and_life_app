@@ -14,7 +14,7 @@ from datetime import datetime as dt
 
 
 
-@dashboard_bp.route('/dashboard', methods=['GET','POST'])
+@dashboard_bp.route('/main', methods=['GET','POST'])
 def dashboard():
 
   form1 = AddWeightForm()
@@ -31,9 +31,6 @@ def dashboard():
     return render_template("dashboard.html",
                           form1=form1,
                           form2=form2)
-
-
-  flash('form2 not validated', 'error')
 
   return render_template("dashboard.html",
                           titleText=metaTags['dashboard']['pageTitleDict'],
