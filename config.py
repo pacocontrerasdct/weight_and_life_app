@@ -20,5 +20,5 @@ class Config:
 
   # Database
   SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
-  SQLALCHEMY_ECHO = True
+  SQLALCHEMY_ECHO = True  # True logs all SQL outputs. Set it to False in Production
   SQLALCHEMY_TRACK_MODIFICATIONS = False
