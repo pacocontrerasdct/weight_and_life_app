@@ -44,7 +44,23 @@ class Admin(UserMixin, db.Model):
   full_access=db.Column(db.Boolean,
                         index=False,
                         unique=False,
-                        nullable=True) 
+                        nullable=True)
+
+  weights=db.relationship(
+      'Weight',
+      backref='admin',
+      cascade='all, delete, delete-orphan',
+      single_parent=True,
+      order_by='desc(Weight.weight_date)'
+  )
+
+  trips=db.relationship(
+      'Trip',
+      backref='admin',
+      cascade='all, delete, delete-orphan',
+      single_parent=True,
+      order_by='desc(Trip.starting_date)'
+  )
   
   def set_password(self, password):
     """Create hashed password."""
@@ -93,8 +109,7 @@ class Weight(db.Model):
                   primary_key=True)
 
   admin_id=db.Column(db.Integer,
-                  db.ForeignKey(Admin.id),
-                  nullable=False)
+                  db.ForeignKey(Admin.id))
 
   created=db.Column(db.DateTime,
                         index=False,
@@ -124,8 +139,7 @@ class Trip(db.Model):
                   primary_key=True)
 
   admin_id=db.Column(db.Integer,
-                  db.ForeignKey(Admin.id),
-                  nullable=False)
+                  db.ForeignKey(Admin.id))
 
   created=db.Column(db.DateTime,
                         index=False,
