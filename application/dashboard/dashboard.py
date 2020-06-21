@@ -12,32 +12,48 @@ from .forms import AddWeightForm, UploadFileForm
 from datetime import datetime as dt
 
 
+titleText = metaTags['dashboard']['pageTitleDict']
+headerText = metaTags['dashboard']['headerDict']
 
-
-@dashboard_bp.route('/main', methods=['GET','POST'])
+@dashboard_bp.route("/main", methods=['GET', 'POST'])
 def dashboard():
+  
+  if not current_user.is_authenticated:
+    return redirect(url_for('auth_bp.login'))
 
-  form1 = AddWeightForm()
-  form2 = UploadFileForm()
+  fAddWeight = AddWeightForm()
+
+  if fAddWeight.validate_on_submit() and request.method == 'POST':
+
+    print ("enter add-weight form 1 is ", fAddWeight.weight.data)
+
+    flash('Here add-weight fAddWeight validated', 'message')
+    return redirect(url_for('.dashboard'))
+
+  return render_template("dashboard.html",
+                          titleText=titleText,
+                          headerText=headerText,
+                          fAddWeight=fAddWeight,)
+
+@dashboard_bp.route("/upload", methods=['GET', 'POST'])
+def upload():
 
   if not current_user.is_authenticated:
     return redirect(url_for('auth_bp.login'))
 
-  if form2.validate_on_submit() and request.method == 'POST':
+  fUploadFile = UploadFileForm()
 
-    print (form2.txtFile.data)
+  if request.method == 'POST' and fUploadFile.validate_on_submit():
+
+    print ("entering addFile ", fUploadFile.txtFile.data)
     
-    flash('form2 validated', 'message')
-    return render_template("dashboard.html",
-                          form1=form1,
-                          form2=form2)
+    flash('fUploadFile validated', 'message')
+    return redirect(url_for('.upload'))
 
   return render_template("dashboard.html",
-                          titleText=metaTags['dashboard']['pageTitleDict'],
-                          headerText=metaTags['dashboard']['headerDict'],
-                          form1=form1,
-                          form2=form2)
-
+                          titleText=titleText,
+                          headerText=headerText,
+                          fUploadFile=fUploadFile)
 
 @login_manager.user_loader
 def load_user(user_id):

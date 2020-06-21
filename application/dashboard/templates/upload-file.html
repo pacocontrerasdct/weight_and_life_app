@@ -1,0 +1,25 @@
+<h2>Upload your weights</h2>
+<form action="{{ url_for('.upload') }}" class="margin-top-form" method="POST">
+  {{ fUploadFile.csrf_token }}
+  
+  <div class="form-group">
+    {{ fUploadFile.txtFile.label }}
+    {{ fUploadFile.txtFile(class='form-control') }}
+  </div>
+
+  {{ fUploadFile.submit(class='btn btn-default') }}
+
+</form>
+
+<div class="margin-top-form">
+  <p><a href="{{ url_for('.dashboard') }}" class="font-weight-bold">Record a weight instead.</a></p>
+</div>
+
+{% if fUploadFile.txtFile.errors %}
+  <div class="hoovering">
+    <a href="{{ url_for('.upload') }}" class="close" >X</a>
+    {% for error in fUploadFile.txtFile.errors %}
+    <h5>{{ error }}</h5>
+    {% endfor %}
+  </div>
+{% endif %}

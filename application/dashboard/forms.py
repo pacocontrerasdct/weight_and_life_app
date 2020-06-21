@@ -7,24 +7,20 @@ class AddWeightForm(FlaskForm):
 
   weight = FloatField('Weight',
                       validators=[InputRequired(),
-                                  Length(min=2, message='You can\'t weight that little. Please correct the number'),
-                                  Length(max=6, message='That weight is too high. Please correct the number'),
+                                  validators.NumberRange(min=20, max=200, message='Weight looks wrong!'),
                                   ])
 
   weightDate = DateField('Date',
                         validators=[InputRequired(),
-                                    Length(min=10, message='You can\'t weight that little. Please correct the number'),
-                                    Length(max=10, message='That weight is too high. Please correct the number'),
                                     ])
 
   submit = SubmitField('Save')
 
 
 class UploadFileForm(FlaskForm):
-  match='link_high_sierra.txt'
 
-  txtFile = FileField('Upload a file [only txt or csv]',
-                  [validators.regexp(match, message='This file type is forbidden')])
+  txtFile = FileField('Only admitted txt and csv files',
+                      [validators.Regexp(regex='^.*\\.(txt|csv)$', message='This file type is forbidden')])
 
   submit = SubmitField('Upload')
 
