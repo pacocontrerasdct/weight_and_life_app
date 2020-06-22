@@ -5,6 +5,11 @@ body {
   font-size: 12px;
   color: #444;
 }
+
+li {
+  display: block;
+}
+
 /*
  * Formatting the header area
  */
@@ -156,4 +161,14 @@ footer {
   margin-top: 20px;
 }
 
+/* Listing weights */
+.row-separated {
+  margin: 5px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.weight-list > ul {
+  padding-inline-start: 0;
+}
 
