@@ -17,7 +17,7 @@
 
 {% if fUploadFile.txtFile.errors %}
   <div class="hoovering">
-    <a href="{{ url_for('.upload') }}" class="close" >X</a>
+    <a href="{{ redirectHoovering | safe}}" class="close" >X</a>
     {% for error in fUploadFile.txtFile.errors %}
     <h5>{{ error }}</h5>
     {% endfor %}

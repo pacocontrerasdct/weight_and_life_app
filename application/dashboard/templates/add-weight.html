@@ -23,9 +23,9 @@
 
 {% if fAddWeight.weight.errors or fAddWeight.weightDate.errors %}
   {% set errors = fAddWeight.weight.errors if fAddWeight.weight.errors else fAddWeight.weightDate.errors %}
-
+  
   <div class="hoovering">
-    <a href="{{ url_for('.dashboard') }}" class="close" >X</a>
+    <a href="{{ redirectHoovering | safe}}" class="close" >X</a>
     {% for error in errors %}
       <h5>{{ error }}</h5>
     {% endfor %}

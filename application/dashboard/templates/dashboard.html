@@ -18,6 +18,8 @@
     </div>
     <div class="col-xs-12 col-md-4">
       <h2>My stats</h2>
+      {% include "list-weights.html" ignore missing with context %}
+
     </div>
     <div class="col-xs-12 col-md-4">
       
@@ -29,21 +31,5 @@
 
     </div>
   </div>
-
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <!-- UX - Messages, warnings or errors -->
-    <div class="hoovering">
-      <a href="{% if fUploadFile %}
-                  {{ url_for('.upload') }}
-                {% else %}
-                  {{ url_for('.dashboard') }}
-                {% endif %}" class="close" >X</a>
-      {% for category, message in messages %}
-        <span class="{{ category }}">Mesagge: {{ message }}</span>
-      {% endfor %}
-    </div>
-    {% endif %}
-  {% endwith %}
 
 {% endblock %}
