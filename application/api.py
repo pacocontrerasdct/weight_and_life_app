@@ -6,14 +6,17 @@ from flask import current_app as app
 from .models import db, Admin, Subscriptor, Weight, Trip
 from .meta_tags_dict import metaTags
 
-@app.route("/")
-@app.route("/index")
 @app.route("/home")
+@app.route("/index")
+@app.route("/")
 def index():
   titleText=metaTags["index"]["pageTitleDict"]
   headerText=metaTags["index"]["headerDict"]
 
-  return render_template("index.html", titleText=titleText, headerText=headerText)
+  return render_template("index.html",
+                          titleText=titleText,
+                          headerText=headerText,
+                          redirectHoovering='/')
 
 @app.route("/thank-you", methods=['POST'])
 def thank_you():
@@ -32,7 +35,7 @@ def thank_you():
         return redirect(url_for('index'))
 
       newSubscriptor = Subscriptor(name=userName_,
-                      email=userEmail_)
+                                  email=userEmail_)
       db.session.add(newSubscriptor)
       db.session.commit()
 
@@ -46,14 +49,18 @@ def historical():
   titleText=metaTags["historical"]["pageTitleDict"]
   headerText=metaTags["historical"]["headerDict"]
 
-  return render_template("historical.html", titleText=titleText, headerText=headerText)
+  return render_template("historical.html",
+                          titleText=titleText,
+                          headerText=headerText,)
 
 @app.route("/about")
 def about():
   titleText=metaTags["about"]["pageTitleDict"]
   headerText=metaTags["about"]["headerDict"]
 
-  return render_template("about.html", titleText=titleText, headerText=headerText)
+  return render_template("about.html",
+                          titleText=titleText,
+                          headerText=headerText,)
 
 
 

@@ -21,6 +21,7 @@ def signup():
   headerText=metaTags['signup']['headerDict']
   access=False
   form = SignupForm()
+  redirectHoovering='signup'
 
   if form.validate_on_submit() and request.method == 'POST':
     # Check if admin is already registered
@@ -43,7 +44,11 @@ def signup():
     # If admin exists show error message
     flash('A admin user already exists with that email address.', 'error')
 
-  return render_template("signup.html", form=form, titleText=titleText, headerText=headerText)
+  return render_template("signup.html", 
+                          form=form, 
+                          titleText=titleText, 
+                          headerText=headerText,
+                          redirectHoovering=redirectHoovering,)
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -61,6 +66,7 @@ def login():
     return redirect(url_for('dashboard_bp.dashboard'))
 
   form = LoginForm()
+  redirectHoovering='login'
 
   if form.validate_on_submit() and request.method == 'POST':
     admin = Admin.query.filter_by(email=form.email.data).first()
@@ -74,9 +80,13 @@ def login():
       return redirect(next_page or url_for('dashboard_bp.dashboard'))
 
     flash ('Invalid user name or password', 'error')
-    return redirect(url_for('auth_bp.login'))
+    # return redirect(url_for('auth_bp.login'))
 
-  return render_template("login.html", form=form, titleText=titleText, headerText=headerText)
+  return render_template("login.html", 
+                          form=form, 
+                          titleText=titleText, 
+                          headerText=headerText,
+                          redirectHoovering=redirectHoovering,)
 
 
 @auth_bp.route('/logout', methods=['POST'])

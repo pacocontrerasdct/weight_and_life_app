@@ -27,23 +27,15 @@
       <p>Don't have an account? <a href="{{ url_for('auth_bp.signup') }}" class="font-weight-bold">Sign up.</a></p>
     </div>
     
-    <!-- UX - Messages, warnings or errors -->
-    <div class="margin-top-form">
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          {% for category, message in messages %}
-            <span class="{{ category }}">{{ message }}</span>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
-
-      {% if form.email.errors %}
-          {% for error in form.email.errors %}
-          <span class="error">{{ error }}</span>
-          {% endfor %}
-      {% endif %}
-      
-    </div>
+    {% if form.email.errors %}
+      <!-- UX - Messages, warnings or errors -->
+      <div class="hoovering">
+        <a href="{{ redirectHoovering | safe}}" class="close" >X</a>
+        {% for error in form.email.errors %}
+          <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
 
   </div>
   <div class="col-xs-1 col-md-3">
