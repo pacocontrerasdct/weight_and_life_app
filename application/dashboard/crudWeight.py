@@ -9,13 +9,13 @@ def read(current_user_):
   """
   user_id = current_user_.id
 
-  return Weight.query.filter_by(admin_id=user_id).all()
+  return Weight.query.filter_by(admin_id=user_id).limit(10).all()
 
 # Create a handler for our insert (POST) weights
 def insert(current_user_, weight_, date_):
   """
   This function responds to a request to insert
-  a new record into table 'weights' for logged user
+  a new record into table 'weights' for a logged user
   """
   newWeight = Weight(
               admin_id=current_user_.id,
@@ -24,5 +24,17 @@ def insert(current_user_, weight_, date_):
               weight_date=date_
               )
   db.session.add(newWeight)
+  db.session.commit()
+  return True
+
+# Create a handler for delete (POST) a weight
+def delete(weightId_):
+  """
+  This function responds to a request to delete
+  a record from table 'weights' for a logged user
+  """
+  weight = Weight.query.filter_by(id=weightId_).first()
+              
+  db.session.delete(weight)
   db.session.commit()
   return True

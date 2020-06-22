@@ -11,7 +11,7 @@ from .forms import AddWeightForm, UploadFileForm, DeleteWeightForm
 from application.models import db, Admin, Weight, Trip
 from datetime import datetime as dt
 
-from .crudWeight import read, insert
+from .crudWeight import read, insert, delete
 
 titleText = metaTags['dashboard']['pageTitleDict']
 headerText = metaTags['dashboard']['headerDict']
@@ -84,7 +84,14 @@ def deleteWeight():
   if fDeleteWeight and request.method == 'POST':
     print ("delete this id: ", fDeleteWeight.weightId.data)
     print ("delete this id: ", fDeleteWeight.submit.data)
-    # return redirect(url_for('.dashboard'))
+    success = delete(fDeleteWeight.weightId.data)
+
+    if not success:
+      flash('Couldn\'t delete weight with id {{ fDeleteWeight.weightId.data }}, sorry', 'error')
+      return redirect(url_for('.dashboard'))
+
+    flash('Weight deleted successfully!', 'message')
+    return redirect(url_for('.dashboard'))
 
   return redirect(url_for('.dashboard'))
 
