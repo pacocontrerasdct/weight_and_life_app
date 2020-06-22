@@ -4,13 +4,14 @@ from . import dashboard_bp
 
 from application import login_manager
 from application.meta_tags_dict import metaTags
-from application.models import db, Admin, Weight, Trip
 
 from flask_login import current_user, logout_user
+from .forms import AddWeightForm, UploadFileForm, DeleteWeightForm
 
-from .forms import AddWeightForm, UploadFileForm
+from application.models import db, Admin, Weight, Trip
 from datetime import datetime as dt
 
+from .crudWeight import read, insert
 
 titleText = metaTags['dashboard']['pageTitleDict']
 headerText = metaTags['dashboard']['headerDict']
@@ -22,18 +23,29 @@ def dashboard():
     return redirect(url_for('auth_bp.login'))
 
   fAddWeight = AddWeightForm()
+  fDeleteWeight = DeleteWeightForm()
+  weights = read(current_user)
+  redirectHoovering='main'
 
   if fAddWeight.validate_on_submit() and request.method == 'POST':
 
     print ("enter add-weight form 1 is ", fAddWeight.weight.data)
+    success = insert(current_user, fAddWeight.weight.data, fAddWeight.weightDate.data)
 
-    flash('Here add-weight fAddWeight validated', 'message')
+    if not success :
+      flash('Couldn\'t save new weight, sorry', 'error')
+      return redirect(url_for('.dashboard'))
+
+    flash('Weight recorded successfully!', 'message')
     return redirect(url_for('.dashboard'))
 
   return render_template("dashboard.html",
                           titleText=titleText,
                           headerText=headerText,
-                          fAddWeight=fAddWeight,)
+                          fAddWeight=fAddWeight,
+                          fDeleteWeight=fDeleteWeight,
+                          weights=weights,
+                          redirectHoovering=redirectHoovering)
 
 @dashboard_bp.route("/upload", methods=['GET', 'POST'])
 def upload():
@@ -42,28 +54,38 @@ def upload():
     return redirect(url_for('auth_bp.login'))
 
   fUploadFile = UploadFileForm()
+  fDeleteWeight = DeleteWeightForm()
+  weights = read(current_user)
+  redirectHoovering='upload'
 
   if request.method == 'POST' and fUploadFile.validate_on_submit():
 
     print ("entering addFile ", fUploadFile.txtFile.data)
     
-    flash('fUploadFile validated', 'message')
+    flash('File uploaded successfully!', 'message')
     return redirect(url_for('.upload'))
 
   return render_template("dashboard.html",
                           titleText=titleText,
                           headerText=headerText,
-                          fUploadFile=fUploadFile)
+                          fUploadFile=fUploadFile,
+                          fDeleteWeight=fDeleteWeight,
+                          weights=weights,
+                          redirectHoovering=redirectHoovering,)
 
-@login_manager.user_loader
-def load_user(user_id):
-  """Check if admin is logged on every page load."""
-  if user_id is not None:
-    return Admin.query.get(user_id)
-  return None
+@dashboard_bp.route("/delete", methods=['POST'])
+def deleteWeight():
+  
+  if not current_user.is_authenticated:
+    return redirect(url_for('auth_bp.login'))
 
-@login_manager.unauthorized_handler
-def unauthorized():
-  """Redirect unauthorized admins to login page"""
-  flash('You must be logged to view that page.')
-  return redirect(url_for('auth_bp.login'))
+  fDeleteWeight = DeleteWeightForm()
+
+  if fDeleteWeight and request.method == 'POST':
+    print ("delete this id: ", fDeleteWeight.weightId.data)
+    print ("delete this id: ", fDeleteWeight.submit.data)
+    # return redirect(url_for('.dashboard'))
+
+  return redirect(url_for('.dashboard'))
+
+
