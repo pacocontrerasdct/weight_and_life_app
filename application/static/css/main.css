@@ -172,3 +172,23 @@ footer {
   padding-inline-start: 0;
 }
 
+.crud-form {
+  display: block;
+  float: left;
+  margin: 5px;
+}
+
+.crud-span {
+  display: block;
+  float: right;
+  margin: 5px;
+  font-size: 10px;
+
+}
+
+ul > li + hr {
+  clear: both;
+}
+
+
+

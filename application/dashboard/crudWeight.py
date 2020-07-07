@@ -27,6 +27,27 @@ def insert(current_user_, weight_, date_):
   db.session.commit()
   return True
 
+# Create a handler for update (POST) a weight
+def update(weightId_, weight_, date_):
+  """
+  This function responds to a request to update
+  a record from table 'weights' for a logged user
+  """
+  weight = Weight.query.filter_by(id=weightId_).first()
+  weight.weight = weight_
+  weight.weight_date = date_
+  db.session.commit()
+  return True
+
+# Create a handler for edit (POST) a weight
+def edit(weightId_):
+  """
+  This function responds to a request to delete
+  a record from table 'weights' for a logged user
+  """
+  weight = Weight.query.filter_by(id=weightId_).first()
+  return weight
+
 # Create a handler for delete (POST) a weight
 def delete(weightId_):
   """

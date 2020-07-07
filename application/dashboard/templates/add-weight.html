@@ -2,14 +2,16 @@
 <form action="{{ url_for('.dashboard') }}" class="margin-top-form" method="POST">
   {{ fAddWeight.csrf_token }}
   
+  {{ fAddWeight.weightId(value=default.id) }}
+
   <div class="form-group">
     {{ fAddWeight.weight.label }}
-    {{ fAddWeight.weight(class='form-control', placeholder='0.000') }}
+    {{ fAddWeight.weight(class='form-control', placeholder='0.000', value=default.weight) }}
   </div>
 
   <div class="form-group">
     {{ fAddWeight.weightDate.label }}
-    {{ fAddWeight.weightDate(class='form-control', placeholder='2000-01-01') }}
+    {{ fAddWeight.weightDate(class='form-control', placeholder='2000-01-01', value=default.date) }}
   </div>
 
   {{ fAddWeight.submit(class='btn btn-default') }}
@@ -26,10 +28,9 @@
   
   <div class="hoovering">
     <a href="{{ redirectHoovering | safe}}" class="close" >X</a>
-    {% for error in errors %}
+    {% for error in errors|unique %}
       <h5>{{ error }}</h5>
     {% endfor %}
   </div>
 
 {% endif %}
-
