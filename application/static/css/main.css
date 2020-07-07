@@ -5,6 +5,11 @@ body {
   font-size: 12px;
   color: #444;
 }
+
+li {
+  display: block;
+}
+
 /*
  * Formatting the header area
  */
@@ -105,6 +110,29 @@ footer {
 }
 
 /*flash categories styles*/
+.hoovering {
+  background-color: pink;
+  border: 1px solid black;
+  padding: 5px 10px;
+  height: auto;
+  width: 250px;
+  z-index: 1000;
+  position: fixed;
+  top: 10%;
+  left: 40%;
+}
+
+.hoovering > h5 {
+  text-align: top;
+}
+
+.close {
+  background-color: black;
+  color: white;
+  text-align: left;
+  margin: 5px;
+}
+
 .error {
   background-color: red;
   color: white;
@@ -132,5 +160,35 @@ footer {
 .margin-top-form {
   margin-top: 20px;
 }
+
+/* Listing weights */
+.row-separated {
+  margin: 5px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.weight-list > ul {
+  padding-inline-start: 0;
+}
+
+.crud-form {
+  display: block;
+  float: left;
+  margin: 5px;
+}
+
+.crud-span {
+  display: block;
+  float: right;
+  margin: 5px;
+  font-size: 10px;
+
+}
+
+ul > li + hr {
+  clear: both;
+}
+
 
 

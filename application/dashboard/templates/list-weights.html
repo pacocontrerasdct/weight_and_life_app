@@ -1,0 +1,24 @@
+<h3>List of weights</h3>
+<div class="weight-list">
+    {{ fDeleteWeight.csrf_token }}
+    <ul>
+      {% if weights %}
+        {% for w in weights %}
+          <li>
+            {{ fEditWeight.csrf_token }}
+            <form action="{{ url_for('.editWeight') }}" class="crud-form" method="POST">
+              {{ fEditWeight.weightId(value=w.id) }}
+              {{ fEditWeight.submit(class='btn btn-default') }}   
+            </form> 
+            {{ fDeleteWeight.csrf_token }}           
+            <form action="{{ url_for('.deleteWeight') }}" class="crud-form" method="POST">
+              {{ fDeleteWeight.weightId(value=w.id) }}
+              {{ fDeleteWeight.submit(class='btn btn-default') }}   
+            </form>
+            <span class="crud-span">{{ w.weight }} Kg on {{ w.weight_date}}</span>
+          </li>
+          <hr class="row-separated">
+        {% endfor %}
+      {% endif %}
+    </ul>
+</div>

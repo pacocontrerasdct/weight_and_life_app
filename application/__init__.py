@@ -28,9 +28,13 @@ def create_app():
     from .auth import auth_bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
+    from .dashboard import dashboard_bp as dashboard_bp
+    app.register_blueprint(dashboard_bp, url_prefix='/dashboard')
+
     # Include our Routes
     from . import api, models
     from .auth import auth
+    from .dashboard import dashboard
 
     # Create database models
     db.create_all()

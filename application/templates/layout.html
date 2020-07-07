@@ -14,7 +14,7 @@
     <!-- Stack the columns on mobile by making one full-width and the other half-width -->
     <div class="row">
       <div class="col-xs-18 col-md-12">
-        <header><h1 class="logo">Life & Weight</h1></header>
+        <header><h1 class="logo">Weight versus [...]</h1></header>
         
         <nav class="navbar navbar-default navbar-fixed-top">
             <ul class="nav navbar-nav navbar-right">
@@ -26,8 +26,24 @@
         </nav>
       </div>
     </div>
+    
+    {% block errors %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <!-- UX - Messages, warnings or errors -->
+        <div class="hoovering">
+          <a href="{{ redirectHoovering | safe}}" class="close" >X</a>
+          {% for category, message in messages %}
+            <span>{{ message }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      {% endwith %}
+    {% endblock errors %}
 
-    {% block body %}{% endblock %}
+    {% block body %}
+
+    {% endblock %}
 
     <div class="row">
       <div class="col-xs-18 col-md-12">
