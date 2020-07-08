@@ -5,21 +5,21 @@ from wtforms.validators import InputRequired, DataRequired, Length, Optional, Va
 from datetime import datetime as dt
 
 class AddWeightForm(FlaskForm):
-  
+
   def is_not_in_future(self, weightDate):
-    if weightDate.data > dt.now().date():
+    if type(weightDate.data) == 'datetime.date' and weightDate.data > dt.now().date():
       raise ValidationError('Date can\'t be in the future')
 
   weightId = HiddenField('weightId',
                           default={},)
-
   weight = FloatField('Weight',
                       validators=[InputRequired(),
                                   validators.NumberRange(min=20, max=200, message='Weight looks wrong!')],
                       default={},)
   weightDate = DateField('Date',
+                        format='%Y-%m-%d',
                         validators=[InputRequired(),
-                                    is_not_in_future,],
+                                    is_not_in_future],
                         default={},)
   submit = SubmitField('Save')
 
