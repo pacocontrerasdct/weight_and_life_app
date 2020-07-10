@@ -1,4 +1,5 @@
 """Routes for dashboard private area."""
+import os
 from flask import Blueprint, render_template, redirect, request, flash, session, url_for
 from . import dashboard_bp
 
@@ -86,6 +87,23 @@ def upload():
   if request.method == 'POST' and fUploadFile.validate_on_submit():
 
     print ("entering addFile ", fUploadFile.txtFile.data)
+
+    file = fUploadFile.txtFile.data.name
+    print(file)
+    print(type(file))
+
+    fileData = request.files[fUploadFile.txtFile.name].read()
+
+    print(fileData)
+
+
+
+    # open(os.path.join(UPLOAD_PATH, form.image.data), 'w').write(image_data)
+
+
+
+
+
     
     flash('File uploaded successfully!', 'message')
     return redirect(url_for('.upload'))

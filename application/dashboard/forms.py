@@ -1,6 +1,7 @@
 """CRUD forms for weights and trips"""
 from flask_wtf import FlaskForm
-from wtforms import FloatField, DateField, FileField, HiddenField, SubmitField, validators
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+from wtforms import FloatField, DateField, HiddenField, SubmitField, validators
 from wtforms.validators import InputRequired, DataRequired, Length, Optional, ValidationError
 from datetime import datetime as dt
 
@@ -26,7 +27,8 @@ class AddWeightForm(FlaskForm):
 
 class UploadFileForm(FlaskForm):
   txtFile = FileField('Only admitted txt and csv files',
-                      [validators.Regexp(regex='^.*\\.(txt|csv)$', message='This file type is forbidden')])
+                      validators=[FileRequired(),
+                                  FileAllowed(['txt','csv'], 'This file type is forbidden. Use only txt or csv.')])
   submit = SubmitField('Upload')
 
 

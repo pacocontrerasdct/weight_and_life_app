@@ -1,5 +1,5 @@
 <h2>Upload your weights</h2>
-<form action="{{ url_for('.upload') }}" class="margin-top-form" method="POST">
+<form action="{{ url_for('.upload') }}" class="margin-top-form" method="POST" enctype="multipart/form-data">
   {{ fUploadFile.csrf_token }}
   
   <div class="form-group">
