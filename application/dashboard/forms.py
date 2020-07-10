@@ -26,7 +26,7 @@ class AddWeightForm(FlaskForm):
 
 
 class UploadFileForm(FlaskForm):
-  txtFile = FileField('Only admitted txt and csv files',
+  file = FileField('Only admitted txt and csv files',
                       validators=[FileRequired(),
                                   FileAllowed(['txt','csv'], 'This file type is forbidden. Use only txt or csv.')])
   submit = SubmitField('Upload')

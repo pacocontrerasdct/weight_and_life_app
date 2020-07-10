@@ -1,5 +1,5 @@
 """Routes for dashboard private area."""
-import os
+import os, csv
 from flask import Blueprint, render_template, redirect, request, flash, session, url_for
 from . import dashboard_bp
 
@@ -8,6 +8,7 @@ from application.meta_tags_dict import metaTags
 
 from flask_login import current_user, logout_user
 from .forms import AddWeightForm, UploadFileForm, DeleteWeightForm, EditWeightForm
+from werkzeug.utils import secure_filename
 
 from application.models import db, Admin, Weight, Trip
 from datetime import datetime as dt
@@ -86,23 +87,15 @@ def upload():
 
   if request.method == 'POST' and fUploadFile.validate_on_submit():
 
-    print ("entering addFile ", fUploadFile.txtFile.data)
+    fileName = secure_filename(fUploadFile.file.data.filename)
+    filePath = 'application/uploads/' + fileName
 
-    file = fUploadFile.txtFile.data.name
-    print(file)
-    print(type(file))
+    fUploadFile.file.data.save(filePath)
 
-    fileData = request.files[fUploadFile.txtFile.name].read()
-
-    print(fileData)
-
-
-
-    # open(os.path.join(UPLOAD_PATH, form.image.data), 'w').write(image_data)
-
-
-
-
+    with open(filePath, newline='') as csvfile:
+      reader= csv.DictReader(csvfile, delimiter=';')
+      for row in reader:
+        print(row['weight'],row['date'])
 
     
     flash('File uploaded successfully!', 'message')

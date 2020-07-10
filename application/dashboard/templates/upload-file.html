@@ -3,8 +3,8 @@
   {{ fUploadFile.csrf_token }}
   
   <div class="form-group">
-    {{ fUploadFile.txtFile.label }}
-    {{ fUploadFile.txtFile(class='form-control') }}
+    {{ fUploadFile.file.label }}
+    {{ fUploadFile.file(class='form-control') }}
   </div>
 
   {{ fUploadFile.submit(class='btn btn-default') }}
@@ -15,10 +15,10 @@
   <p><a href="{{ url_for('.dashboard') }}" class="font-weight-bold">Record a weight instead.</a></p>
 </div>
 
-{% if fUploadFile.txtFile.errors %}
+{% if fUploadFile.file.errors %}
   <div class="hoovering">
     <a href="{{ redirectHoovering | safe}}" class="close" >X</a>
-    {% for error in fUploadFile.txtFile.errors %}
+    {% for error in fUploadFile.file.errors %}
     <h5>{{ error }}</h5>
     {% endfor %}
   </div>
