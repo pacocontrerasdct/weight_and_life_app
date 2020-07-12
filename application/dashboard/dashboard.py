@@ -4,13 +4,13 @@ from flask import Blueprint, render_template, redirect, request, flash, session,
 from . import dashboard_bp
 
 from application import login_manager
-from application.meta_tags_dict import metaTags
+from ..meta_tags_dict import metaTags
 
 from flask_login import current_user, logout_user
 from .forms import AddWeightForm, UploadFileForm, DeleteWeightForm, EditWeightForm
 from werkzeug.utils import secure_filename
 
-from application.models import db, Admin, Weight, Trip
+from ..models import db, Admin, Weight, Trip
 from datetime import datetime as dt
 
 from .crudWeight import read, insert, delete, edit, update
@@ -40,6 +40,9 @@ def dashboard():
     default = {}
 
   if fAddWeight.validate_on_submit() and request.method == 'POST':
+
+
+    
 
     # if form contains and weightId, update that record
     if fAddWeight.weightId.data:
@@ -88,8 +91,7 @@ def upload():
   if request.method == 'POST' and fUploadFile.validate_on_submit():
 
     fileName = secure_filename(fUploadFile.file.data.filename)
-    filePath = 'application/uploads/' + fileName
-
+    filePath = os.path.join('application/uploads', fileName)
     fUploadFile.file.data.save(filePath)
 
     with open(filePath, newline='') as csvfile:
