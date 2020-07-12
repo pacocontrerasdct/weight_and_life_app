@@ -1,4 +1,4 @@
-from application.models import db, Admin, Weight, Trip
+from ..models import db, Admin, Weight, Trip
 from datetime import datetime as dt
 
 # Create a handler for our read (GET) weights
