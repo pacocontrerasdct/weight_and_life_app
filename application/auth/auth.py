@@ -1,11 +1,11 @@
 """Routes for user authentication."""
 from flask import Blueprint, render_template, redirect, request, flash, session, url_for
 from . import auth_bp
-from application import login_manager
+from .. import login_manager
 from flask_login import login_required, logout_user, current_user, login_user
 from .forms import LoginForm, SignupForm
-from application.meta_tags_dict import metaTags
-from application.models import db, Admin
+from ..meta_tags_dict import metaTags
+from ..models import db, Admin
 from datetime import datetime as dt
 
 
