@@ -10,6 +10,7 @@ from ..meta_tags_dict import metaTags
 from flask_login import current_user, logout_user
 from .forms import AddWeightForm, UploadFileForm, DeleteWeightForm, EditWeightForm, DataValidation
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import RequestEntityTooLarge
 
 from ..models import db, Admin, Weight, Trip
 # from datetime import datetime as dt
@@ -189,4 +190,9 @@ def editWeight():
 
   return redirect(url_for('.dashboard'))
 
-
+@dashboard_bp.errorhandler(413)
+@dashboard_bp.errorhandler(RequestEntityTooLarge)
+def app_handle_413(e):
+  flash('File too large, maximum size admitted is 1MB.', 'error')
+  return redirect(url_for('.upload'))
+    # return 'Este File Too Large', 413
