@@ -92,7 +92,7 @@ def upload():
   if request.method == 'POST' and fUploadFile.validate_on_submit():
 
     fileName = secure_filename(fUploadFile.file.data.filename)
-    filePath = os.path.join('application/uploads', fileName)
+    filePath = os.path.join('application/static/uploads', fileName)
     fUploadFile.file.data.save(filePath)
 
     with open(filePath, newline='') as csvfile:
