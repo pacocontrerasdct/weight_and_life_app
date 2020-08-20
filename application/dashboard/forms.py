@@ -15,10 +15,11 @@ from wtforms.validators import (InputRequired,
 import datetime
 from datetime import datetime as dt
 
-dateWrongMsg = 'Date can\'t be in the future'
-weightWrongMsg = (f"""That\'s not a valid weight!""",
-                  f"""Weight is out of the scale 20 to 200kg.""")
-fileForbMsg = 'This file type is forbidden. Use only txt or csv.'
+dateInvalidMsg = f"""Date is not valid."""
+dateWrongMsg = f"""Date can't be in the future"""
+weightWrongMsg = (f"""That's not a valid weight! """
+                  f"""Weight is out of the scale from 20 to 200 kg.""")
+fileForbMsg = f"""This file type is forbidden. Use only txt or csv."""
 
 
 class DataValidation(object):
@@ -30,12 +31,11 @@ class DataValidation(object):
     def __init__(self, message=None):
         super(DataValidation, self).__init__()
         if not message:
-            message = 'Date is not valid.'
-        self.message = message
+            self.message = dateInvalidMsg
     """
-  This function checks if input date is a valid datetime instance
-  and if it isn't in the future
-  """
+    This function checks if input date is a valid datetime instance
+    and if it isn't in the future
+    """
     def is_valid_date(form, field):
         d1 = field.data
         d2 = dt.now().date()
@@ -45,9 +45,9 @@ class DataValidation(object):
         if d1 > d2:
             raise StopValidation(dateWrongMsg)
     """
-  This function responds to a request for table 'weights'
-  with the complete list of weights
-  """
+    This function responds to a request for table 'weights'
+    with the complete list of weights
+    """
     def is_valid_weight(form, field):
         try:
             weight = float(field.data)

@@ -120,37 +120,44 @@ def upload():
             reader = csv.DictReader(csvfile, fieldnames=fNames, delimiter=';')
             rowNumber = 0
             errorRow = ""
+            nl = '\n'
 
             for row in reader:
                 rowNumber = rowNumber + 1
-                details = "{errorRow} {rowNumber}"
+                details = f"""Row number {rowNumber}. Reason:"""
 
                 print(row['weight'], row['date'])
 
                 try:
                     weight = float(row['weight'])
-
-                    if float(row['weight']) < 20 or float(row['weight']) > 200:
-                        e = "Weight out of range [20..200]"
-                        errorRow = f"{{details}}- Found exception: {e}.\n"
-
-                except Exception as e:
-                    errorRow = f"{{details}}- Found exception: {e}.\n"
-
-                try:
                     dateFromRow = datetime.strptime((row['date']), '%Y/%m/%d')
                     today = datetime.now()
+
+                    if float(row['weight']) < 20 or float(row['weight']) > 200:
+                        e = "Weight out of range from 20 to 200 Kg."
+                        errorRow += f"""{details} {e}{nl}"""
+
                     if today < dateFromRow:
                         e = "Date can't be in the future."
-                        errorRow = f"{{details}}- Found exception: {e}.\n"
+                        errorRow += f"""{details} {e}{nl}"""
 
                 except Exception as e:
-                    errorRow = f"{{details}}- Found exception: {e}.\n"
+                    errorRow += f"""{details} {e}{nl}"""
+
+                # try:
+                #     dateFromRow = datetime.strptime((row['date']), '%Y/%m/%d')
+                #     today = datetime.now()
+                #     if today < dateFromRow:
+                #         e = "Date can't be in the future."
+                #         errorRow += f"{details}- 3Found exception: {e}{nl}"
+
+                # except Exception as e:
+                #     errorRow = f"{details}- 4Found exception: {e}.\n"
 
             if errorRow != "":
-                errorMsg = (f"""File hasn't been proccessed!""",
-                            f"""Couldn't save new data on rows:\n""",
-                            f"""{{errorRow}}""")
+                errorMsg = f"""File hasn't been proccessed!{nl}""" \
+                            f"""Couldn't save new data.{nl}""" \
+                            f"""{errorRow}"""
 
                 flash(errorMsg, 'error')
                 return redirect(url_for('.upload'))
