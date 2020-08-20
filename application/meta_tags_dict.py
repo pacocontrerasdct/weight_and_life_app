@@ -1,43 +1,43 @@
 metaTags = {
 
-  "index": {
-    "pageTitleDict": "Home",
-    "headerDict": "Home",
-  },
+    "index": {
+        "pageTitleDict": "Home",
+        "headerDict": "Home",
+    },
 
-  "historical": {
-    "pageTitleDict": "Historical graphic",
-    "headerDict": "Chart with historic data",
-  },
+    "historical": {
+        "pageTitleDict": "Historical graphic",
+        "headerDict": "Chart with historic data",
+    },
 
-  "trips": {
-    "pageTitleDict": "Trips to Spain",
-    "headerDict": "Trips",
-  },
+    "trips": {
+        "pageTitleDict": "Trips to Spain",
+        "headerDict": "Trips",
+    },
 
-  "about": {
-    "pageTitleDict": "About this project",
-    "headerDict": "About this site",
-  },
+    "about": {
+        "pageTitleDict": "About this project",
+        "headerDict": "About this site",
+    },
 
-  "login": {
-    "pageTitleDict": "Login page",
-    "headerDict": "Access to your dashboard",
-  },
+    "login": {
+        "pageTitleDict": "Login page",
+        "headerDict": "Access to your dashboard",
+    },
 
-  "signup": {
-    "pageTitleDict": "Signup as administrator",
-    "headerDict": "Register in our site",
-  },
+    "signup": {
+        "pageTitleDict": "Signup as administrator",
+        "headerDict": "Register in our site",
+    },
 
-  "private": {
-    "pageTitleDict": "Private area",
-    "headerDict": "Welcome to your private area",
-  },
+    "private": {
+        "pageTitleDict": "Private area",
+        "headerDict": "Welcome to your private area",
+    },
 
-  "dashboard": {
-    "pageTitleDict": "Your personal dashboard",
-    "headerDict": "Dashboard - Manage your account",
-  },
+    "dashboard": {
+        "pageTitleDict": "Your personal dashboard",
+        "headerDict": "Dashboard - Manage your account",
+    },
 
 }
