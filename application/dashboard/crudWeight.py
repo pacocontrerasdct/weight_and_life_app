@@ -10,7 +10,8 @@ def read(current_user_):
     """
     user_id = current_user_.id
 
-    return Weight.query.filter_by(admin_id=user_id).limit(5).all()
+    return Weight.query.filter_by(admin_id=user_id).order_by(
+        Weight.weight_date.desc()).limit(5).all()
 
 
 def insert(current_user_, weight_, date_):
