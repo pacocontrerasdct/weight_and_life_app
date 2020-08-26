@@ -1,193 +1,195 @@
 body {
-  margin: 0;
-  padding: 70px 0 0 0;
-  font-family: "Courier New", Arial, sans-serif;
-  font-size: 12px;
-  color: #444;
+    margin: 0;
+    padding: 70px 0 0 0;
+    font-family: "Courier New", Arial, sans-serif;
+    font-size: 12px;
+    color: #444;
 }
 
 li {
-  display: block;
+    display: block;
 }
 
+img {
+    width: 100%;
+}
 /*
  * Formatting the header area
  */
 header {
-  background-color: #DFB887;
-  height: 100px;
-  opacity: .9;
-  margin-bottom: 10px;
-  width: auto;
+    background-color: #DFB887;
+    height: 100px;
+    opacity: .9;
+    margin-bottom: 10px;
+    width: auto;
 }
 
 header h1.logo {
-  color: #fff;
-  float: left;
-  font-size: 22px;
-  margin: 0;
-  padding: 20px;
-  text-transform: uppercase;
+    color: #fff;
+    float: left;
+    font-size: 22px;
+    margin: 0;
+    padding: 20px;
+    text-transform: uppercase;
   
 }
 
 header h1.logo:hover {
-  color: #fff;
-  text-decoration: none;
+    color: #fff;
+    text-decoration: none;
 }
 
 /*
  * Centering the body content
  */
 .container {
-  width: 80%;
-  margin: 0 auto;
+    width: 80%;
+    margin: 0 auto;
 }
 
 div.home {
-  padding: 10px 0 30px 0;
-  background-color: #E6E6FA;
-  -webkit-border-radius: 6px;
+    padding: 10px 0 30px 0;
+    background-color: #E6E6FA;
+    -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
           border-radius: 6px;
 }
 div.about {
-  padding: 10px 0 30px 0;
-  background-color: #E6E6FA;
-  -webkit-border-radius: 6px;
+    padding: 10px 0 30px 0;
+    background-color: #E6E6FA;
+    -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
           border-radius: 6px;
 }
 h2 {
-  font-size: 18px;
-  margin-top: 10px;
-  text-align: center;
-  letter-spacing: 2px;
+    font-size: 18px;
+    margin-top: 10px;
+    text-align: center;
+    letter-spacing: 2px;
 }
 h3 {
-  font-size: 16px;
-  margin-top: 5px;
-  text-align: center;
-  letter-spacing: 1px;
-  color: #999;
+    font-size: 16px;
+    margin-top: 5px;
+    text-align: center;
+    letter-spacing: 1px;
+    color: #999;
 }
 
 .btn-default {
-  background-color: #f1f1f1;
+    background-color: #f1f1f1;
 }
 
 .btn {
   border: 0px;
-  border-radius: 0px;
-  border-left: 1px solid #dee2e6!important;
-  margin-right: 1px; 
+    border-radius: 0px;
+    border-left: 1px solid #dee2e6!important;
+    margin-right: 1px; 
 }
 
 .menu {
-  float: right;
-  margin-top: 8px;
+    float: right;
+    margin-top: 8px;
 }
 .menu li {
-  display: inline;
+    display: inline;
 }
 .menu li + li {
-  margin-left: 35px;
+    margin-left: 35px;
 }
 .menu li a {
-  color: #444;
-  text-decoration: none;
+    color: #444;
+    text-decoration: none;
 }
 
 aside {
-  border: 1px solid #f1f1f1;
-  padding: 10px;
+    border: 1px solid #f1f1f1;
+    padding: 10px;
 }
 
 footer {
-  background-color: #ffddb3;
-  margin-top: 30px;
-  padding: 10px;
+    background-color: #ffddb3;
+    margin-top: 30px;
+    padding: 10px;
 }
 
 /*flash categories styles*/
 .hoovering {
-  background-color: pink;
-  border: 1px solid black;
-  padding: 5px 10px;
-  height: auto;
-  width: 250px;
-  z-index: 1000;
-  position: fixed;
-  top: 10%;
-  left: 40%;
+    background-color: pink;
+    border: 1px solid black;
+    padding: 5px 10px;
+    height: auto;
+    width: 250px;
+    z-index: 1000;
+    position: fixed;
+    top: 10%;
+    left: 40%;
 }
 
 .hoovering > h5 {
-  text-align: top;
+    text-align: top;
 }
 
 .close {
-  background-color: black;
-  color: white;
-  text-align: left;
-  margin: 5px;
+    background-color: black;
+    color: white;
+    text-align: left;
+    margin: 5px;
 }
 
 .error {
-  background-color: red;
-  color: white;
-  font-weight: bold;
-  margin: 0 10px;
-  padding: 5px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    margin: 0 10px;
+    padding: 5px;
 }
 
 .message {
-  background-color: yellowgreen;
-  color: white;
-  font-style: italic;
-  margin: 0 10px;
-  padding: 5px;
+    background-color: yellowgreen;
+    color: white;
+    font-style: italic;
+    margin: 0 10px;
+    padding: 5px;
 }
 
 .warning {
-  background-color: sandybrown;
-  color: white;
-  font-weight: bold;
-  margin: 0 10px;
-  padding: 5px;
+    background-color: sandybrown;
+    color: white;
+    font-weight: bold;
+    margin: 0 10px;
+    padding: 5px;
 }
 
 .margin-top-form {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 /* Listing weights */
 .row-separated {
-  margin: 5px 0;
-  border: 0;
-  border-top: 1px solid #eee;
+    margin: 5px 0;
+    border: 0;
+    border-top: 1px solid #eee;
 }
 
 .weight-list > ul {
-  padding-inline-start: 0;
+    padding-inline-start: 0;
 }
 
 .crud-form {
-  display: block;
-  float: left;
-  margin: 5px;
+    display: block;
+    float: left;
+    margin: 5px;
 }
 
 .crud-span {
-  display: block;
-  float: right;
-  margin: 5px;
-  font-size: 14px;
-
+    display: block;
+    float: right;
+    margin: 5px;
+    font-size: 14px;
 }
 
 ul > li + hr {
-  clear: both;
+    clear: both;
 }
 
 

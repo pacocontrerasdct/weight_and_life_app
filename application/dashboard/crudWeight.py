@@ -1,4 +1,4 @@
-from ..models import db, Admin, Weight, Trip
+from application.models import db, Admin, Weight, Trip
 from datetime import datetime
 
 

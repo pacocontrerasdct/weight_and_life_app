@@ -18,15 +18,15 @@
     </div>
     <div class="col-xs-12 col-md-4">
       <h2>My stats</h2>
-      {% include "list-weights.html" ignore missing with context %}
+      {% include "dashboard/list-weights.html" ignore missing with context %}
 
     </div>
     <div class="col-xs-12 col-md-4">
       
       {% if fUploadFile %}
-        {% include "upload-file.html" ignore missing with context %}
+        {% include "dashboard/upload-file.html" ignore missing with context %}
       {% else %}
-        {% include "add-weight.html" ignore missing with context %}
+        {% include "dashboard/add-weight.html" ignore missing with context %}
       {% endif %}
 
     </div>
