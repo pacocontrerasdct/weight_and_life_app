@@ -24,17 +24,15 @@ fileForbMsg = f"""This file type is forbidden. Use only txt or csv."""
 
 class DataValidation(object):
     """
-    This function initialises this class and
-    set a default message
+    Initialises and set a default message
     """
-
     def __init__(self, message=None):
         super(DataValidation, self).__init__()
         if not message:
             self.message = dateInvalidMsg
     """
-    This function checks if input date is a valid datetime instance
-    and if it isn't in the future
+    Checks if input date is a valid datetime instance
+    and if it is in the future
     """
     def is_valid_date(form, field):
         d1 = field.data
@@ -45,8 +43,7 @@ class DataValidation(object):
         if d1 > d2:
             raise StopValidation(dateWrongMsg)
     """
-    This function responds to a request for table 'weights'
-    with the complete list of weights
+    Check if weight is between a valid range of weights
     """
     def is_valid_weight(form, field):
         try:
@@ -72,7 +69,7 @@ class AddWeightForm(FlaskForm):
     weightDate = DateField('Date',
                            format='%Y-%m-%d',
                            validators=[InputRequired(),
-                                       dataValidation.is_valid_date, ],
+                                       dataValidation.is_valid_date],
                            default={},)
     submit = SubmitField('Save')
 
