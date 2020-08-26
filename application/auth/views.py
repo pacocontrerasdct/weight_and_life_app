@@ -6,13 +6,16 @@ from flask import (Blueprint,
                    flash,
                    session,
                    url_for)
-from . import auth_bp
-from .. import login_manager
+
+from application import login_manager
 from flask_login import login_required, logout_user, current_user, login_user
-from .forms import LoginForm, SignupForm
-from ..meta_tags_dict import metaTags
-from ..models import db, Admin
+from application.auth.forms import LoginForm, SignupForm
+from application.meta_tags_dict import metaTags
+from application.models import db, Admin
 from datetime import datetime as dt
+
+auth_bp = Blueprint('auth_bp', __name__,
+                    template_folder='templates')
 
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
@@ -50,7 +53,7 @@ def signup():
         # If admin exists show error message
         flash('A admin user already exists with that email address.', 'error')
 
-    return render_template("signup.html",
+    return render_template("auth/signup.html",
                            form=form,
                            titleText=titleText,
                            headerText=headerText,
@@ -88,7 +91,7 @@ def login():
         flash('Invalid user name or password', 'error')
         # return redirect(url_for('auth_bp.login'))
 
-    return render_template("login.html",
+    return render_template("auth/login.html",
                            form=form,
                            titleText=titleText,
                            headerText=headerText,
@@ -108,7 +111,7 @@ def logout():
         del session['was_once_logged_in']
 
     flash('You have logged out successfully', 'message')
-    return redirect(url_for('index'))
+    return redirect(url_for('auth_bp.login'))
 
 
 @login_manager.user_loader
@@ -122,5 +125,5 @@ def load_user(user_id):
 @login_manager.unauthorized_handler
 def unauthorized():
     """Redirect unauthorized admins to login page"""
-    flash('You must be logged to view that page.')
+    flash('You must be logged to view that page.', 'message')
     return redirect(url_for('auth_bp.login'))
