@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <h2>{% block headerText %}{{ headerText | safe }}{% endblock %}</h2>
+            <img src="{{ url_for('static', filename='images/413_error_request.png') }}" alt="There was an error 413.">
+        </div>
+    </div>
+{% endblock %}
