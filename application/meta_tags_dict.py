@@ -40,4 +40,13 @@ metaTags = {
         "headerDict": "Dashboard - Manage your account",
     },
 
+    "error413": {
+        "pageTitleDict": "Error 413: File to upload too large",
+        "headerDict": "Error 413: File too large!",
+    },
+
+    "error404": {
+        "pageTitleDict": "Error 404: Page not found",
+        "headerDict": "Error 404: We can't find that page, sorry!",
+    },
 }
