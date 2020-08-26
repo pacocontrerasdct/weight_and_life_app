@@ -1,10 +1,11 @@
 """Routes for core application."""
+import operator
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required, logout_user
-# from datetime import datetime as dt
+
 from flask import current_app as app
-from .models import db, Admin, Subscriptor, Weight, Trip
-from .meta_tags_dict import metaTags
+from application.models import db, Admin, Subscriptor, Weight, Trip
+from application.meta_tags_dict import metaTags
 
 from pandas import pandas as pd
 from bokeh.plotting import figure, output_file, show
@@ -53,7 +54,6 @@ def thank_you():
                   You will receive my newsletter
                   next time I produce it!.""",
                   'message')
-            return redirect(url_for('index'))
 
     return redirect(url_for('index'))
 
@@ -121,3 +121,18 @@ def about():
     return render_template("about.html",
                            titleText=titleText,
                            headerText=headerText,)
+
+
+@app.route("/all-routes")
+def all_routes():
+    rules = []
+    routes = []
+
+    for rule in app.url_map.iter_rules():
+        methods = ','.join(sorted(rule.methods))
+        rules.append((rule.endpoint, methods, str(rule)))
+
+    for endpoint, methods, rule in sorted(rules, key=operator.itemgetter(2)):
+        routes.append((endpoint, methods, rule))
+
+    return render_template("all_links.html", routes=routes)
