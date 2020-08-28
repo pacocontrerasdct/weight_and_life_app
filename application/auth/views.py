@@ -89,7 +89,6 @@ def login():
             return redirect(next_page or url_for('dashboard_bp.dashboard'))
 
         flash('Invalid user name or password', 'error')
-        # return redirect(url_for('auth_bp.login'))
 
     return render_template("auth/login.html",
                            form=form,
@@ -98,7 +97,7 @@ def login():
                            redirectHoovering=redirectHoovering,)
 
 
-@auth_bp.route('/logout', methods=['POST'])
+@auth_bp.route('/logout', methods=['GET'])
 @login_required
 def logout():
     """Logout user deleting session"""
