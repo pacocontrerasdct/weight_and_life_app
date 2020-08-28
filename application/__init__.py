@@ -40,10 +40,15 @@ def create_app():
         app.register_blueprint(dashboard_bp,
                                url_prefix='/dashboard')
 
+        from application.trip.views import trip_bp
+        app.register_blueprint(trip_bp,
+                               url_prefix='/trip')
+
         # Include our Routes
         from application import views, models
         from application.auth import views
         from application.dashboard import views
+        from application.trip import views
 
         # Create database models
         db.create_all()
