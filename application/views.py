@@ -103,14 +103,15 @@ def historical():
 
     print("cdb ", cdn_javascript)
     # print("data ", myData)
-    # print("myDiv", myDiv)
+    print("myDiv", myDiv)
 
     return render_template("historical.html",
                            titleText=titleText,
                            headerText=headerText,
                            cdn_javascript=cdn_javascript,
                            myData=myData,
-                           myDiv=myDiv)
+                           myDiv=myDiv
+                           )
 
 
 @app.route("/about")
