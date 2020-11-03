@@ -164,7 +164,8 @@ footer {
     margin-top: 20px;
 }
 
-/* Listing weights */
+/* Listing weights 
+****************************************************************/
 .row-separated {
     margin: 5px 0;
     border: 0;
@@ -191,6 +192,4 @@ footer {
 ul > li + hr {
     clear: both;
 }
-
-
 
