@@ -1,5 +1,4 @@
-{% extends "layout.html" %}
-
+{% extends "./trip/trip-layout.html" %}
 {% block body %}
   <div class="row">
     <div class="col-xs-12 col-md-12">
@@ -21,8 +20,13 @@
         </nav>
 
     </div>
-    <div class="col-xs-12 col-md-10">
-        <img src="static/images/planes-wallpaper.jpg" alt="Volando voy...">
+    <div class="col-xs-12 col-md-10 bg-img-trips">
+        <div class="col-xs-12 col-md-8 border-one">
+            {% include "trip/bokeh-graph.html" ignore missing with context %}
+        </div>
+         <div class="col-xs-12 col-md-4 border-one">
+            {% include "trip/edit-panel.html" ignore missing with context %}
+        </div>       
     </div>
   </div>
 
