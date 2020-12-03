@@ -1,5 +1,33 @@
 <ul>
-    <li>Add</li>
+    <li>Add new trip</li>
+        <form action="{{ url_for('trip_bp.main') }}" class="margin-top-form" method="POST">
+          {{ fAddTrip.csrf_token }}
+          
+          {{ fAddTrip.tripId(value=default.id) }}
+
+          <div class="form-group">
+            {{ fAddTrip.startingDate.label }}
+            {{ fAddTrip.startingDate(class='form-control', placeholder='2000-01-01', value=default.date) }}
+          </div>
+
+          <div class="form-group">
+            {{ fAddTrip.endingDate.label }}
+            {{ fAddTrip.endingDate(class='form-control', placeholder='2000-01-01', value=default.date) }}
+          </div>
+
+          <div class="form-group">
+            {{ fAddTrip.fromAirport.label }}
+            {{ fAddTrip.fromAirport(class='form-control', placeholder='From', value=default.fromAirport) }}
+          </div>
+
+          <div class="form-group">
+            {{ fAddTrip.toAirport.label }}
+            {{ fAddTrip.toAirport(class='form-control', placeholder='To', value=default.toAirport) }}
+          </div>
+
+          {{ fAddTrip.submit(class='btn btn-default') }}
+
+        </form>
     <li>Edit</li>
     <li>Remove</li>
     <li>Import</li>
