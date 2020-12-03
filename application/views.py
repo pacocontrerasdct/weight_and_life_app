@@ -6,12 +6,7 @@ from flask_login import current_user, login_required, logout_user
 from flask import current_app as app
 from application.models import db, Admin, Subscriptor, Weight, Trip
 from application.meta_tags_dict import metaTags
-
-from pandas import pandas as pd
-from bokeh.plotting import figure, output_file, show
-from bokeh.resources import CDN
-from bokeh.embed import components
-from bokeh.models import HoverTool
+from application.graph_historical import graphHistorical
 
 
 @app.route("/home")
@@ -60,58 +55,18 @@ def thank_you():
 
 @app.route("/historical")
 def historical():
+    
     titleText = metaTags["historical"]["pageTitleDict"]
     headerText = metaTags["historical"]["headerDict"]
 
-    df = pd.read_sql_table('weights',
-                           app.config['SQLALCHEMY_DATABASE_URI'])
-    _y = df["weight"]
-    _x = df["weight_date"]
-
-    print(type(_x))
-    print(_x[0])
-
-    hover = HoverTool(tooltips=[(("Date, Weight"), "@x, @y Kg")])
-
-    TOOLS = [hover]
-
-    _plot = figure(title=(
-        "Historic data showing variations of my weight "
-        "since I moved to London"
-    ),
-        x_axis_label='Dates',
-        y_axis_label='Kg',
-        x_axis_type='datetime',
-        tools=TOOLS)
-
-    _plot.line(_x,
-               _y,
-               legend_label="My weight of life",
-               line_width=5)
-
-    # _plot = figure(title="My weight",
-    #                x_axis_label='Dates',
-    #                x_range=_y,
-    #                y_axis_label='Weight',
-    #                plot_height=350,
-    #                x_axis_type='datetime')
-    # _plot.vbar(x=_y, top=_x, width=0.9)
-    # _plot.y_range.start = 50
-
-    cdn_javascript = CDN.js_files[0]
-    myData, myDiv = components(_plot)
-
-    print("cdb ", cdn_javascript)
-    # print("data ", myData)
-    print("myDiv", myDiv)
+    graph = graphHistorical()
 
     return render_template("historical.html",
                            titleText=titleText,
                            headerText=headerText,
-                           cdn_javascript=cdn_javascript,
-                           myData=myData,
-                           myDiv=myDiv
-                           )
+                           cdn_javascript=graph[0],
+                           bokehScriptComponent=graph[1],
+                           bokehDivComponent=graph[2])
 
 
 @app.route("/about")
@@ -121,7 +76,7 @@ def about():
 
     return render_template("about.html",
                            titleText=titleText,
-                           headerText=headerText,)
+                           headerText=headerText)
 
 
 @app.route("/all-routes")
