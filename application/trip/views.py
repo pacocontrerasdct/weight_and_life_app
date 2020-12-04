@@ -39,22 +39,22 @@ def makeMockData(current_user, number_):
         # }
         count += 1
         insert(current_user,
-               f"1999-0{count}-01",
-               f"1999-0{count}-05",
+               f"2020-0{count}-01",
+               f"2020-0{count}-05",
                "London",
                "Murcia")
 
-        insert(current_user,
-               f"2000-0{count}-01",
-               f"2000-0{count}-03",
-               "London",
-               "Murcia")
+        # insert(current_user,
+        #        f"2000-0{count}-01",
+        #        f"2000-0{count}-03",
+        #        "London",
+        #        "Murcia")
         
-        insert(current_user,
-               f"2001-0{count}-10",
-               f"2001-0{count}-15",
-               "London",
-               "Murcia")
+        # insert(current_user,
+        #        f"2001-0{count}-10",
+        #        f"2001-0{count}-15",
+        #        "London",
+        #        "Murcia")
 
 
 @trip_bp.route("/main", methods=['GET', 'POST'])
@@ -69,7 +69,7 @@ def main():
 
     default = {}
 
-    # makeMockData(current_user, 5)
+    # makeMockData(current_user, 2)
 
 
     # if fAddTrip.validate_on_submit() and request.method == 'POST':
