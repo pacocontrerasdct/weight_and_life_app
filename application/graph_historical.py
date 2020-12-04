@@ -23,6 +23,9 @@ def graphHistorical():
                           "Historic data showing variations of my weight "
                           "since I moved to London"
                           ),
+                            plot_width=650,
+                            plot_height=450,
+                            sizing_mode='scale_both',
                             x_axis_label='Dates',
                             y_axis_label='Kg',
                             x_axis_type='datetime',
