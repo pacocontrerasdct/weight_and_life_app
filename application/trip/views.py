@@ -17,7 +17,7 @@ from application.trip.forms import (AddTripForm,
 
 from application.trip.crudTrip import read, insert
 
-from application.trip.graph_trips import graphTrips
+from application.trip.graph_trips import graphTrips, twoPlotsSameFig
 
 
 titleText = metaTags['trips']['pageTitleDict']
@@ -65,7 +65,9 @@ def main():
 
     fAddTrip = AddTripForm()
 
-    graph = graphTrips()
+    # graph = graphTrips()
+
+    graph = twoPlotsSameFig()
 
     default = {}
 

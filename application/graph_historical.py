@@ -12,12 +12,9 @@ def graphHistorical():
     _y = df["weight"]
     _x = df["weight_date"]
 
-    print(type(_x))
-    print(_x[0])
-
     hover = HoverTool(tooltips=[(("Date, Weight"), "@x, @y Kg")])
 
-    TOOLS = [hover]
+    TOOLS = hover, "pan,wheel_zoom,box_zoom,reset"
 
     _plot = figure(title=(
                           "Historic data showing variations of my weight "
