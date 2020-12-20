@@ -168,5 +168,8 @@ class Trip(db.Model):
                            unique=False,
                            nullable=False)
 
+    solo_flight = db.Column(db.Boolean,
+                            default=1)
+
     def __repr__(self):
         return '<Trip {}>'.format(self.starting_date)

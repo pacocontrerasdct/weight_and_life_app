@@ -14,7 +14,7 @@ def read(current_user_):
         Trip.ending_date.desc()).limit(5).all()
 
 
-def insert(current_user_, starting_date_, ending_date_, from_airport_, to_airport_):
+def insert(current_user_, starting_date_, ending_date_, from_airport_, to_airport_, solo_flight_):
     """Create a handler for our insert (POST) trips.
 
     This function responds to a request to insert
@@ -26,7 +26,8 @@ def insert(current_user_, starting_date_, ending_date_, from_airport_, to_airpor
         starting_date=starting_date_,
         ending_date=ending_date_,
         from_airport=from_airport_,
-        to_airport=to_airport_
+        to_airport=to_airport_,
+        solo_flight=solo_flight_
     )
     db.session.add(newTrip)
     db.session.commit()
