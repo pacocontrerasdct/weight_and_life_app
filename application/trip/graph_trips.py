@@ -97,67 +97,110 @@ def twoPlotsSameFig():
 
     # designing the plot style and information
     fig = figure(title = 'Line Plot example',
-                 x_axis_label = 'x',
-                 y_axis_label = 'y',
+                 x_axis_label='Dates',
+                 y_axis_label='Kg',
+                 x_axis_type="datetime",
                  plot_width=650,
                  plot_height=450,
                  sizing_mode='scale_both')
 
+    weights_y = None
+
+
     # WEIGHTS
     #################################
+    df_weights = pd.read_sql_table('weights',
+                                   app.config['SQLALCHEMY_DATABASE_URI'])
+
+    weightDates_x = [1,2,3,40,105]
+    weights_y = [2,4,6,60,20]
+
+    weightDates_x = df_weights['weight_date']
+    weights_y = df_weights['weight']
     
-    # weight_dates
-    line_x = [1,2,3,40,105]
-    # weights
-    line_y = [2,4,6,60,20]
-
-    _line_color = "pink"
-    _line_width = 8
+    line_color = "pink"
+    line_width = 8
 
 
-    # TRIPS 
+    # SOLO TRIPS 
     #################################
-    # _n = num of trips to show
-    # _height = height of the vertical bar which depends on max height of line_y + 10%
-    # _ye = distance from 'y' zero
-    # _left = left start of the bar
-    # _right = right end of the bar
-    # _colors = global if one "color", individual if an array ["color_1", "color_2" [,...]]
-   
-    _n = 20
-    _height = int(sorted(line_y)[-1]) + int(sorted(line_y)[-1] * 0.1)
-    
-    _ye = []
-    for x in range(0,_n):
-        _ye.append(_height/2)
 
-    _left = [2,13,50,80]
-    _right = [10,22,59,92]
-    _colors = ["Cyan", "red", "orange", "Black"]
+    df_trips = pd.read_sql_query('select * from trips where solo_flight = true',
+                                 app.config['SQLALCHEMY_DATABASE_URI'])
+
+    df_trips['middle_date'] = df_trips['starting_date'] + ( ( df_trips['ending_date'] - df_trips['starting_date'] ) / 2 )
+    df_trips['date_radius'] = ( df_trips['ending_date'] - df_trips['starting_date'] ) / 2
+    df_trips['radius'] = df_trips['date_radius'] / pd.Timedelta(1, unit='d')
+
+    print(df_trips['starting_date'])
+    print(df_trips['middle_date'])
+    print(df_trips['radius'])
+    print(df_trips['date_radius'])
 
 
+    # tripsBarHeight = height of the vertical bar which depends on max height of weights_y + 10%
+    # tripsBarStart = left start of the bar
+    # tripsBarEnd = right end of the bar
+    # tripsBarColors = global if one "color", individual if an array ["color_1", "color_2" [,...]]
 
+    # Make sure we have a default bar height
+    # in case there is no Weight data to show
+    weights_y = weights_y if not weights_y.empty else [9]
 
+    highestWeight_y = int(sorted(weights_y)[-1])
 
+    tripsBarHeight = highestWeight_y + (highestWeight_y * 0.1)
+
+    tripsBarStart = [2,13,50,80,100]
+    tripsBarEnd = [10,22,59,92,105]
+
+    tripsBarStart = df_trips['starting_date']
+    tripsBarEnd = df_trips['ending_date']
+
+    tripsBarColors = "red" # Or individual colors for each value ["Cyan", "red",...]
 
 
     # draw horizontal bars figure
-    fig.hbar(y = _ye,
-             height = _height,
-             left = _left,
-             right = _right,
-             color = _colors)
+    fig.hbar(name = "red",
+             y = (tripsBarHeight/2),
+             height = tripsBarHeight,
+             left = tripsBarStart,
+             right = tripsBarEnd,
+             color = tripsBarColors)
+
+
+   # DUO TRIPS 
+    #################################
+
+    df_trips = pd.read_sql_query('select * from trips where solo_flight = false',
+                                 app.config['SQLALCHEMY_DATABASE_URI'])
+
+    df_trips['middle_date'] = df_trips['starting_date'] + ( ( df_trips['ending_date'] - df_trips['starting_date'] ) / 2 )
+    df_trips['date_radius'] = ( df_trips['ending_date'] - df_trips['starting_date'] ) / 2
+    df_trips['radius'] = df_trips['date_radius'] / pd.Timedelta(1, unit='d')
+
+    # Make sure we have a default bar height
+    # in case there is no Weight data to show
+    weights_y = weights_y if not weights_y.empty else [9]
+
+    highestWeight_y = int(sorted(weights_y)[-1])
+
+    tripsBarHeight = highestWeight_y + (highestWeight_y * 0.1)
+    tripsBarStart = df_trips['starting_date']
+    tripsBarEnd = df_trips['ending_date']
+    tripsBarColors = "blue" # Or individual colors for each value ["Cyan", "red",...]
+
+    # draw horizontal bars figure
+    fig.hbar(name = "blue",
+             y = (tripsBarHeight/2),
+             height = tripsBarHeight,
+             left = tripsBarStart,
+             right = tripsBarEnd,
+             color = tripsBarColors)
+
 
     # draw line figure
-    fig.line(line_x, line_y, color=_line_color, width=_line_width)
-
-
-
-
-
-
-
-
+    fig.line(weightDates_x, weights_y, color=line_color, width=line_width)
 
     # Technicalities to show the graph
     curdoc().add_root(fig)
@@ -167,8 +210,6 @@ def twoPlotsSameFig():
     graph = [cdn_javascript, bokehScriptComponent, bokehDivComponent]
 
     return graph
-
-
 
 
 def graphTrips():
@@ -193,29 +234,6 @@ def graphTrips():
     
     print("diff", newestYear - oldestYear)
     # print(df.shape[0])
-
-    # bar = []
-
-    # for element in range(1,df.shape[0]):
-    #     bar.append(5)
-
-    # print(bar)
-
-    # _y = 10
-    # _x_start = df["starting_date"]
-    # _x_end = df["ending_date"]
-
-    # print(type(_x_start))
-    # print(_x_start.size)
-    # print(_x_start[0])
-    # print(_x_end[0])
-
-    # for i in range(1,_x_start.size):
-    #     # diff = _x_end[x]  - _x_start[x]
-    #     # print(diff/np.timedelta64(1,'D'))
-    #     print(f"""start {_x_start[i]}""")
-    #     print(f"""end {_x_end[i]}""")
-
 
     hover = HoverTool(tooltips=[(("Date"), "@x")])
 
@@ -248,27 +266,6 @@ def graphTrips():
     thisGraph.xaxis.axis_label = "Dates"          
     # name of the y-axis 
     # thisGraph.yaxis.axis_label = "none"
-
-
-
-    # y-coordinates is a series
-    # from the very first ordered start_date minus a week
-    # to the very last date plus a week
-    # y = []
-    # diff = []
-    # right = myDates
-    # height = []
-
-
-      
-    # x-coordinates of the right edges 
-    # right = [5,5,5,5,5] 
-
-    # height / thickness of the bars  
-    # height = [0.5, 0.4, 0.3, 0.2, 0.1] 
-      
-    # color values of the bars 
-    # fill_color = ["yellow", "pink", "blue", "green", "purple"]
 
     thisGraph.x_range.start = myDates.starting_date.min()
 

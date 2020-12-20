@@ -31,30 +31,13 @@ def makeMockData(current_user, number_):
 
     count = 0
     while count <= number_:
-        # mockData = {
-        #     "starting_date_": "1999-01-01",
-        #     "ending_date_": "1999-02-01",
-        #     "from_airport_": "London",
-        #     "to_airport_": "Murcia"
-        # }
         count += 1
         insert(current_user,
-               f"2020-0{count}-01",
-               f"2020-0{count}-05",
+               f"2019-0{count}-22",
+               f"2019-0{count}-26",
                "London",
-               "Murcia")
-
-        # insert(current_user,
-        #        f"2000-0{count}-01",
-        #        f"2000-0{count}-03",
-        #        "London",
-        #        "Murcia")
-        
-        # insert(current_user,
-        #        f"2001-0{count}-10",
-        #        f"2001-0{count}-15",
-        #        "London",
-        #        "Murcia")
+               "Murcia",
+               1)
 
 
 @trip_bp.route("/main", methods=['GET', 'POST'])
@@ -71,7 +54,7 @@ def main():
 
     default = {}
 
-    # makeMockData(current_user, 2)
+    # makeMockData(current_user, 1)
 
 
     # if fAddTrip.validate_on_submit() and request.method == 'POST':
