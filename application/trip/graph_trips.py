@@ -109,7 +109,7 @@ def twoPlotsSameFig():
 
     # WEIGHTS
     #################################
-    df_weights = pd.read_sql_table('weights',
+    df_weights = pd.read_sql_query("SELECT * FROM weights ORDER BY weight_date",
                                    app.config['SQLALCHEMY_DATABASE_URI'])
 
     weightDates_x = [1,2,3,40,105]
