@@ -47,6 +47,7 @@ def dashboard():
     fEditWeight = EditWeightForm()
     weights = read(current_user)
 
+    default = {}
     redirectHoovering = 'main'
 
     if request.method == 'GET' and request.args.get('id'):
@@ -55,8 +56,6 @@ def dashboard():
         default = {'id': weightId,
                    'weight': editThis.weight,
                    'date': datetime.date(editThis.weight_date)}
-    else:
-        default = {}
 
     if fAddWeight.validate_on_submit() and request.method == 'POST':
 
