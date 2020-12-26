@@ -1,18 +1,26 @@
 from flask import current_app as app
 from pandas import pandas as pd
+from datetime import date
 from bokeh.plotting import figure, output_file, show
 from bokeh.resources import CDN
 from bokeh.embed import components
 from bokeh.models import HoverTool
 
 def graphHistorical():
-    
-    df = pd.read_sql_table('weights',
+
+    df = pd.read_sql_query("SELECT * FROM weights ORDER BY weight_date",
                            app.config['SQLALCHEMY_DATABASE_URI'])
     _y = df["weight"]
     _x = df["weight_date"]
 
-    hover = HoverTool(tooltips=[(("Date, Weight"), "@x, @y Kg")])
+    hover = HoverTool(
+                      tooltips=[
+                      ("Date: ", "@x{%F}"),
+                      ("Weight: ", "@y Kg")],
+                      formatters={
+                        '@x' : 'datetime'}  # use 'datetime' formatter for '@x' field
+                                            # use default 'numeral' formatter for other fields            
+            )
 
     TOOLS = hover, "pan,wheel_zoom,box_zoom,reset"
 

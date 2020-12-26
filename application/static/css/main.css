@@ -172,6 +172,11 @@ footer {
     border-top: 1px solid #eee;
 }
 
+.weight-list {
+    height: 400px;
+    overflow: scroll;
+}
+
 .weight-list > ul {
     padding-inline-start: 0;
 }
