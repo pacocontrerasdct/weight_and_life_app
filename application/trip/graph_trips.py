@@ -28,11 +28,11 @@ def gTest():
     df_trips = pd.read_sql_table('trips',
                            app.config['SQLALCHEMY_DATABASE_URI'])
 
-    df_trips['middle_date'] = df_trips['starting_date'] + ( ( df_trips['ending_date'] - df_trips['starting_date'] ) / 2 )
-    df_trips['date_radius'] = ( df_trips['ending_date'] - df_trips['starting_date'] ) / 2
+    df_trips['middle_date'] = df_trips['departure_date'] + ( ( df_trips['return_date'] - df_trips['departure_date'] ) / 2 )
+    df_trips['date_radius'] = ( df_trips['return_date'] - df_trips['departure_date'] ) / 2
     df_trips['radius'] = df_trips['date_radius'] / pd.Timedelta(1, unit='d')
 
-    print(df_trips['starting_date'])
+    print(df_trips['departure_date'])
     print(df_trips['middle_date'])
     print(df_trips['radius'])
     print(df_trips['date_radius'])
@@ -42,7 +42,7 @@ def gTest():
     sizes = df_trips['radius']
 
     x = df_trips['middle_date'].to_numpy()
-    xx = df_trips['starting_date'].apply(lambda x: x.year)
+    xx = df_trips['departure_date'].apply(lambda x: x.year)
 
     source = ColumnDataSource(dict(x=x,
                                    y=y,
@@ -125,14 +125,19 @@ def twoPlotsSameFig():
     # SOLO TRIPS 
     #################################
 
-    df_trips = pd.read_sql_query('select * from trips where solo_flight = true',
+    df_trips = pd.read_sql_query("select * from trips where passenger_companion = '' ",
                                  app.config['SQLALCHEMY_DATABASE_URI'])
 
-    df_trips['middle_date'] = df_trips['starting_date'] + ( ( df_trips['ending_date'] - df_trips['starting_date'] ) / 2 )
-    df_trips['date_radius'] = ( df_trips['ending_date'] - df_trips['starting_date'] ) / 2
+    print("df_trips ", df_trips)
+
+    if df_trips.empty == True:
+        return [None,None,None]
+
+    df_trips['middle_date'] = df_trips['departure_date'] + ( ( df_trips['return_date'] - df_trips['departure_date'] ) / 2 )
+    df_trips['date_radius'] = ( df_trips['return_date'] - df_trips['departure_date'] ) / 2
     df_trips['radius'] = df_trips['date_radius'] / pd.Timedelta(1, unit='d')
 
-    print(df_trips['starting_date'])
+    print(df_trips['departure_date'])
     print(df_trips['middle_date'])
     print(df_trips['radius'])
     print(df_trips['date_radius'])
@@ -154,8 +159,8 @@ def twoPlotsSameFig():
     tripsBarStart = [2,13,50,80,100]
     tripsBarEnd = [10,22,59,92,105]
 
-    tripsBarStart = df_trips['starting_date']
-    tripsBarEnd = df_trips['ending_date']
+    tripsBarStart = df_trips['departure_date']
+    tripsBarEnd = df_trips['return_date']
 
     tripsBarColors = "red" # Or individual colors for each value ["Cyan", "red",...]
 
@@ -175,8 +180,8 @@ def twoPlotsSameFig():
     df_trips = pd.read_sql_query('select * from trips where solo_flight = false',
                                  app.config['SQLALCHEMY_DATABASE_URI'])
 
-    df_trips['middle_date'] = df_trips['starting_date'] + ( ( df_trips['ending_date'] - df_trips['starting_date'] ) / 2 )
-    df_trips['date_radius'] = ( df_trips['ending_date'] - df_trips['starting_date'] ) / 2
+    df_trips['middle_date'] = df_trips['departure_date'] + ( ( df_trips['return_date'] - df_trips['departure_date'] ) / 2 )
+    df_trips['date_radius'] = ( df_trips['return_date'] - df_trips['departure_date'] ) / 2
     df_trips['radius'] = df_trips['date_radius'] / pd.Timedelta(1, unit='d')
 
     # Make sure we have a default bar height
@@ -186,8 +191,8 @@ def twoPlotsSameFig():
     highestWeight_y = int(sorted(weights_y)[-1])
 
     tripsBarHeight = highestWeight_y + (highestWeight_y * 0.1)
-    tripsBarStart = df_trips['starting_date']
-    tripsBarEnd = df_trips['ending_date']
+    tripsBarStart = df_trips['departure_date']
+    tripsBarEnd = df_trips['return_date']
     tripsBarColors = "blue" # Or individual colors for each value ["Cyan", "red",...]
 
     # draw horizontal bars figure
@@ -219,15 +224,15 @@ def graphTrips():
     df = pd.read_sql_table('trips',
                            app.config['SQLALCHEMY_DATABASE_URI'])
 
-    myDates = df.sort_values(by='starting_date', ascending=True)
+    myDates = df.sort_values(by='departure_date', ascending=True)
 
-    daysBetweenDates = myDates.ending_date - myDates.starting_date
+    daysBetweenDates = myDates.return_date - myDates.departure_date
 
     print("my dates ", myDates)
     print("dates BETWEEN ", daysBetweenDates)
 
-    oldestYear = myDates.iloc[0].starting_date.year
-    newestYear = myDates.iloc[-1].ending_date.year
+    oldestYear = myDates.iloc[0].departure_date.year
+    newestYear = myDates.iloc[-1].return_date.year
 
     print("min", oldestYear)
     print("max", newestYear)
@@ -245,13 +250,13 @@ def graphTrips():
 
     for year in range(myDates.shape[0]):
         yearsRange.append(year)
-        # diff.append(myDates.ending_date - myDates.starting_date)        
+        # diff.append(myDates.return_date - myDates.departure_date)        
         # right.append(5)
         # height.append(0.5)
         top.append(1)
 
     print(top)
-    yearsRange = myDates.loc[:, 'starting_date']
+    yearsRange = myDates.loc[:, 'departure_date']
     print("daterange ", yearsRange)
 
     # instantiating the figure object 
@@ -267,11 +272,11 @@ def graphTrips():
     # name of the y-axis 
     # thisGraph.yaxis.axis_label = "none"
 
-    thisGraph.x_range.start = myDates.starting_date.min()
+    thisGraph.x_range.start = myDates.departure_date.min()
 
     # plotting the thisGraph
-    thisGraph.vbar(x = myDates.starting_date,
-                   width = (myDates.ending_date - myDates.starting_date),
+    thisGraph.vbar(x = myDates.departure_date,
+                   width = (myDates.return_date - myDates.departure_date),
                    bottom=0,
                    top=top,
                    fill_color = "blue") 

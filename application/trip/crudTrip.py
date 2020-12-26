@@ -11,10 +11,17 @@ def read(current_user_):
     user_id = current_user_.id
 
     return Trip.query.filter_by(admin_id=user_id).order_by(
-        Trip.ending_date.desc()).limit(5).all()
+        Trip.return_date.desc()).limit(5).all()
 
 
-def insert(current_user_, starting_date_, ending_date_, from_airport_, to_airport_, solo_flight_):
+def insert(current_user_,
+           departure_date_,
+           departure_origin_,
+           departure_destination_,
+           return_date_,
+           return_origin_,
+           return_destination_,
+           passenger_companion_):
     """Create a handler for our insert (POST) trips.
 
     This function responds to a request to insert
@@ -23,11 +30,13 @@ def insert(current_user_, starting_date_, ending_date_, from_airport_, to_airpor
     newTrip = Trip(
         admin_id=current_user_.id,
         created=datetime.utcnow(),
-        starting_date=starting_date_,
-        ending_date=ending_date_,
-        from_airport=from_airport_,
-        to_airport=to_airport_,
-        solo_flight=solo_flight_
+        departure_date=departure_date_,
+        departure_origin=departure_origin_,
+        departure_destination=departure_destination_,
+        return_date=return_date_,
+        return_origin=return_origin_,
+        return_destination=return_destination_,
+        passenger_companion=passenger_companion_
     )
     db.session.add(newTrip)
     db.session.commit()
@@ -42,7 +51,7 @@ def insert(current_user_, starting_date_, ending_date_, from_airport_, to_airpor
 #     """
 #     weight = Trip.query.filter_by(id=weightId_).first()
 #     weight.weight = weight_
-#     weight.ending_date = date_
+#     weight.return_date = date_
 #     db.session.commit()
 #     return True
 

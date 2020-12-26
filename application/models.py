@@ -60,7 +60,7 @@ class Admin(UserMixin, db.Model):
         backref='admin',
         cascade='all, delete, delete-orphan',
         single_parent=True,
-        order_by='desc(Trip.starting_date)'
+        order_by='desc(Trip.departure_date)'
     )
 
     def set_password(self, password):
@@ -148,28 +148,42 @@ class Trip(db.Model):
                         nullable=False,
                         default=datetime.utcnow())
 
-    starting_date = db.Column(db.DateTime,
+
+    departure_origin = db.Column(db.String(6),
+                                 index=False,
+                                 unique=False,
+                                 nullable=False)
+
+    departure_destination = db.Column(db.String(6),
+                                      index=False,
+                                      unique=False,
+                                      nullable=False)
+
+    departure_date = db.Column(db.DateTime,
+                               index=False,
+                               unique=False,
+                               nullable=False)
+
+    return_origin = db.Column(db.String(6),
                               index=False,
                               unique=False,
                               nullable=False)
 
-    ending_date = db.Column(db.DateTime,
+    return_destination = db.Column(db.String(6),
+                                   index=False,
+                                   unique=False,
+                                   nullable=False)
+
+    return_date = db.Column(db.DateTime,
                             index=False,
                             unique=False,
                             nullable=False)
 
-    from_airport = db.Column(db.String(120),
-                             index=False,
-                             unique=False,
-                             nullable=False)
-
-    to_airport = db.Column(db.String(120),
-                           index=False,
-                           unique=False,
-                           nullable=False)
-
-    solo_flight = db.Column(db.Boolean,
-                            default=1)
+    passenger_companion = db.Column(db.String(120),
+                                    index=False,
+                                    default="None",
+                                    unique=False,
+                                    nullable=False)
 
     def __repr__(self):
-        return '<Trip {}>'.format(self.starting_date)
+        return '<Trip {}>'.format(self.departure_date)
