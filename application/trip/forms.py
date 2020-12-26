@@ -17,8 +17,6 @@ from datetime import datetime as dt
 
 dateInvalidMsg = f"""Date is not valid."""
 dateWrongMsg = f"""Date can't be in the future"""
-weightWrongMsg = (f"""That's not a valid weight! """
-                  f"""Weight is out of the scale from 20 to 200 kg.""")
 fileForbMsg = f"""This file type is forbidden. Use only txt or csv."""
 
 
@@ -42,16 +40,6 @@ class DataValidation(object):
             raise StopValidation()
         if d1 > d2:
             raise StopValidation(dateWrongMsg)
-    """
-    Check if weight is between a valid range of weights
-    """
-    def is_valid_weight(form, field):
-        try:
-            weight = float(field.data)
-            if weight < 20 or weight > 200:
-                raise StopValidation(weightWrongMsg)
-        except Exception as e:
-            raise StopValidation(weightWrongMsg)
 
 
 dataValidation = DataValidation
@@ -61,21 +49,37 @@ class AddTripForm(FlaskForm):
 
     tripId = HiddenField('tripId',
                            default={},)
-    startingDate = DateField('Date',
+
+    departure_origin = StringField('From Airport',
+                        validators=[InputRequired()],
+                        default={},)
+
+    departure_destination = StringField('To Airport',
+                        validators=[InputRequired()],
+                        default={},)
+
+    departure_date = DateField('Date',
                            format='%Y-%m-%d',
                            validators=[InputRequired(),
                                        dataValidation.is_valid_date],
                            default={},)
-    endingDate = DateField('Date',
-                       format='%Y-%m-%d',
-                       validators=[InputRequired(),
-                                   dataValidation.is_valid_date],
-                       default={},)
-    fromAirport = StringField('From Airport',
+
+    return_origin = StringField('From Airport',
                         validators=[InputRequired()],
                         default={},)
-    toAirport = StringField('To Airport',
-                        validators=[InputRequired()],
-                        default={},)    
-    submit = SubmitField('Save')
 
+    return_destination = StringField('To Airport',
+                        validators=[InputRequired()],
+                        default={},)
+
+    return_date = DateField('Date',
+                           format='%Y-%m-%d',
+                           validators=[InputRequired(),
+                                       dataValidation.is_valid_date],
+                           default={},)  
+
+    passenger_companion = StringField('Companions',
+                        validators=[],
+                        default={"None"},)
+
+    submit = SubmitField('Add trip')

@@ -131,7 +131,7 @@ def twoPlotsSameFig():
     print("df_trips ", df_trips)
 
     if df_trips.empty == True:
-        return [None,None,None]
+        return ["","",""]
 
     df_trips['middle_date'] = df_trips['departure_date'] + ( ( df_trips['return_date'] - df_trips['departure_date'] ) / 2 )
     df_trips['date_radius'] = ( df_trips['return_date'] - df_trips['departure_date'] ) / 2
@@ -177,7 +177,7 @@ def twoPlotsSameFig():
    # DUO TRIPS 
     #################################
 
-    df_trips = pd.read_sql_query('select * from trips where solo_flight = false',
+    df_trips = pd.read_sql_query("select * from trips where passenger_companion != '' ",
                                  app.config['SQLALCHEMY_DATABASE_URI'])
 
     df_trips['middle_date'] = df_trips['departure_date'] + ( ( df_trips['return_date'] - df_trips['departure_date'] ) / 2 )

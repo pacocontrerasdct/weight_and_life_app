@@ -15,12 +15,12 @@ def read(current_user_):
 
 
 def insert(current_user_,
-           departure_date_,
            departure_origin_,
            departure_destination_,
-           return_date_,
+           departure_date_,
            return_origin_,
            return_destination_,
+           return_date_,
            passenger_companion_):
     """Create a handler for our insert (POST) trips.
 

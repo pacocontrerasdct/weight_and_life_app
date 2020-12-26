@@ -25,7 +25,13 @@
             {% include "trip/bokeh-graph.html" ignore missing with context %}
         </div>
          <div class="col-xs-12 col-md-4 border-one">
-            {% include "trip/edit-panel.html" ignore missing with context %}
+            
+
+            {% if fUploadFile %}
+                {% include "trip/upload-file.html" ignore missing with context %}
+            {% else %}
+                {% include "trip/edit-panel.html" ignore missing with context %}
+            {% endif %}
         </div>       
     </div>
   </div>
