@@ -22,10 +22,11 @@ from application.dashboard.forms import (AddWeightForm,
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 
-from application.models import db, Admin, Weight, Trip
-
-
-from application.dashboard.crudWeight import read, insert, delete, edit, update
+from application.dashboard.crudWeight import (read,
+                                              insert,
+                                              delete,
+                                              edit,
+                                              update)
 from application.dashboard.formatWeight import formatW
 
 titleText = metaTags['dashboard']['pageTitleDict']
@@ -117,20 +118,17 @@ def upload():
         filePath = os.path.join('application/static/uploads', fileName)
         fUploadFile.file.data.save(filePath)
 
-        print("HELLEOEL ")
-
         with open(filePath, newline='') as csvfile:
             fNames = ['weight', 'date']
             reader = csv.DictReader(csvfile, fieldnames=fNames, delimiter=';')
             rowNumber = 0
             errorRow = ""
             nl = '\n'
+            
+            details = f"""Row number {rowNumber}. Reason:"""
 
             for row in reader:
                 rowNumber = rowNumber + 1
-                details = f"""Row number {rowNumber}. Reason:"""
-
-                print(row['weight'], row['date'])
 
                 try:
                     weight = float(row['weight'])
