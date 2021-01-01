@@ -48,5 +48,6 @@ metaTags = {
     "error404": {
         "pageTitleDict": "Error 404: Page not found",
         "headerDict": "Error 404: We can't find that page, sorry!",
-    },
+    }
+
 }

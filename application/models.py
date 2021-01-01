@@ -149,12 +149,12 @@ class Trip(db.Model):
                         default=datetime.utcnow())
 
 
-    departure_origin = db.Column(db.String(6),
+    departure_origin = db.Column(db.Integer,
                                  index=False,
                                  unique=False,
                                  nullable=False)
 
-    departure_destination = db.Column(db.String(6),
+    departure_destination = db.Column(db.Integer,
                                       index=False,
                                       unique=False,
                                       nullable=False)
@@ -164,12 +164,12 @@ class Trip(db.Model):
                                unique=False,
                                nullable=False)
 
-    return_origin = db.Column(db.String(6),
+    return_origin = db.Column(db.Integer,
                               index=False,
                               unique=False,
                               nullable=False)
 
-    return_destination = db.Column(db.String(6),
+    return_destination = db.Column(db.Integer,
                                    index=False,
                                    unique=False,
                                    nullable=False)
@@ -187,3 +187,40 @@ class Trip(db.Model):
 
     def __repr__(self):
         return '<Trip {}>'.format(self.departure_date)
+
+
+class Airport(db.Model):
+    """Data model for Airports"""
+    __tablename__ = 'airports'
+
+    id = db.Column(db.Integer,
+                   primary_key=True)
+
+    created = db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=False,
+                        default=datetime.utcnow())
+
+    airport_country = db.Column(db.String(120),
+                                index=False,
+                                unique=False,
+                                nullable=False)
+
+    airport_city = db.Column(db.String(120),
+                             index=True,
+                             unique=False,
+                             nullable=False)
+
+    airport_name = db.Column(db.String(120),
+                             index=False,
+                             unique=False,
+                             nullable=False)
+
+    airport_iata_identifier = db.Column(db.String(3),
+                                        index=True,
+                                        unique=False,
+                                        nullable=False)
+
+    def __repr__(self):
+        return '<Trip {}>'.format(self.airport_country)
