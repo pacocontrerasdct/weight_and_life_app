@@ -4,6 +4,12 @@
 <div class="row">
   <div class="col-xs-12 col-md-8">
     <h2>{% block headerText %}{{ headerText | safe }}{% endblock %}</h2>
+    <div>
+        <p>Historic data showing variations of my weight since I moved to London.<br>
+            Vertical bars represent trips I have done in these years, mostly to my hometown in Spain.<br>
+            The idea is to identify a relationship between visiting Spain and putting on weight... ;)
+        </p>
+    </div>
     {{ bokehDivComponent | safe }}
   </div>
   <div class="col-xs-12 col-md-4">

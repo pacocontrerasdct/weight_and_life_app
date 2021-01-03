@@ -1,8 +1,8 @@
-from application.models import db, Admin, Trip
+from application.models import db, Trip
 from datetime import datetime
 
 
-def read(current_user_):
+def readTrip(current_user_):
     """Create a handler for our read (GET) trips.
 
     This function responds to a request for table 'trips'
@@ -14,7 +14,7 @@ def read(current_user_):
         Trip.return_date.desc()).limit(5).all()
 
 
-def insert(current_user_,
+def insertTrip(current_user_,
            departure_origin_,
            departure_destination_,
            departure_date_,
@@ -41,39 +41,3 @@ def insert(current_user_,
     db.session.add(newTrip)
     db.session.commit()
     return True
-
-
-# def update(weightId_, weight_, date_):
-#     """Create a handler for update (POST) a weight.
-
-#     This function responds to a request to update
-#     a record from table 'trips' for a logged user
-#     """
-#     weight = Trip.query.filter_by(id=weightId_).first()
-#     weight.weight = weight_
-#     weight.return_date = date_
-#     db.session.commit()
-#     return True
-
-
-# def edit(weightId_):
-#     """Create a handler for edit (POST) a weight.
-
-#     This function responds to a request to delete
-#     a record from table 'trips' for a logged user
-#     """
-#     weight = Trip.query.filter_by(id=weightId_).first()
-#     return weight
-
-
-# def delete(weightId_):
-#     """Create a handler for delete (POST) a weight.
-
-#     This function responds to a request to delete
-#     a record from table 'trips' for a logged user
-#     """
-#     weight = Trip.query.filter_by(id=weightId_).first()
-
-#     db.session.delete(weight)
-#     db.session.commit()
-#     return True

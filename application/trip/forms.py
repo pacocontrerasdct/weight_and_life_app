@@ -1,9 +1,10 @@
-"""CRUD forms for weights and trips"""
+"""CRUD forms for trips"""
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import (StringField,
                      DateField,
                      HiddenField,
+                     SelectField,
                      SubmitField,
                      validators)
 from wtforms.validators import (InputRequired,
@@ -15,9 +16,13 @@ from wtforms.validators import (InputRequired,
 import datetime
 from datetime import datetime as dt
 
-dateInvalidMsg = f"""Date is not valid."""
-dateWrongMsg = f"""Date can't be in the future"""
-fileForbMsg = f"""This file type is forbidden. Use only txt or csv."""
+from application.trip.crudAirport import readAirport
+
+defaultSelectorRow = readAirport(airport_city='Select one')
+
+dateInvalidMsg = f"""Data is not valid."""
+dateWrongMsg = f"""Date is in a wrong format."""
+selectOneMsg = f"""You need to select Airports for departure and return."""
 
 
 class DataValidation(object):
@@ -33,53 +38,74 @@ class DataValidation(object):
     and if it is in the future
     """
     def is_valid_date(form, field):
-        d1 = field.data
-        d2 = dt.now().date()
-
         if not isinstance(field.data, datetime.date):
+            form.errors.append(dateWrongMsg)
             raise StopValidation()
-        if d1 > d2:
-            raise StopValidation(dateWrongMsg)
-
+    """
+    Checks there is a selected airport
+    different from the default 'select one' option
+    """
+    def is_valid_airport_id(form, field):
+        if field.data == 1:
+            form.errors.append(selectOneMsg)
+            raise StopValidation()
 
 dataValidation = DataValidation
 
 
 class AddTripForm(FlaskForm):
 
+    errors = []
+
     tripId = HiddenField('tripId',
                            default={},)
 
-    departure_origin = StringField('From Airport',
-                        validators=[InputRequired()],
-                        default={},)
+    departure_origin = SelectField('From:',
+                                   coerce=int,
+                                   validators=[
+                                        InputRequired(),
+                                        dataValidation.is_valid_airport_id
+                                   ],
+                                   default=defaultSelectorRow.id)
 
-    departure_destination = StringField('To Airport',
-                        validators=[InputRequired()],
-                        default={},)
+    departure_destination = SelectField('To:',
+                                        coerce=int,
+                                        validators=[
+                                            InputRequired(),
+                                            dataValidation.is_valid_airport_id
+                                        ],
+                                        default=defaultSelectorRow.id)
 
     departure_date = DateField('Date',
-                           format='%Y-%m-%d',
-                           validators=[InputRequired(),
-                                       dataValidation.is_valid_date],
-                           default={},)
+                               format='%Y-%m-%d',
+                               validators=[InputRequired(),
+                                    dataValidation.is_valid_date],
+                               default={},)
 
-    return_origin = StringField('From Airport',
-                        validators=[InputRequired()],
-                        default={},)
+    return_origin = SelectField('From:',
+                                coerce=int,
+                                validators=[
+                                    InputRequired(),
+                                    dataValidation.is_valid_airport_id
+                                ],
+                                default=defaultSelectorRow.id)
 
-    return_destination = StringField('To Airport',
-                        validators=[InputRequired()],
-                        default={},)
+    return_destination = SelectField('To:',
+                                     coerce=int,
+                                     validators=[
+                                        InputRequired(),
+                                        dataValidation.is_valid_airport_id
+                                    ],
+                                    default=defaultSelectorRow.id)
 
     return_date = DateField('Date',
-                           format='%Y-%m-%d',
-                           validators=[InputRequired(),
-                                       dataValidation.is_valid_date],
-                           default={},)  
+                            format='%Y-%m-%d',
+                            validators=[InputRequired(),
+                                dataValidation.is_valid_date],
+                            default={},)  
 
     passenger_companion = StringField('Companions',
-                        validators=[],
-                        default={"None"},)
+                                      validators=[],
+                                      default={},)
 
     submit = SubmitField('Add trip')

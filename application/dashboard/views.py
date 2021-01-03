@@ -28,6 +28,7 @@ from application.dashboard.crudWeight import (read,
                                               edit,
                                               update)
 from application.dashboard.formatWeight import formatW
+from application.dashboard.graph_weight import graphWeights
 
 titleText = metaTags['dashboard']['pageTitleDict']
 headerText = metaTags['dashboard']['headerDict']
@@ -36,6 +37,7 @@ dashboard_bp = Blueprint('dashboard_bp', __name__,
                          template_folder='templates',
                          static_folder='static')
 
+graph = graphWeights()
 
 @dashboard_bp.route("/main", methods=['GET', 'POST'])
 def dashboard():
@@ -95,6 +97,9 @@ def dashboard():
                            fDeleteWeight=fDeleteWeight,
                            fEditWeight=fEditWeight,
                            weights=formatW(weights),
+                           cdn_javascript=graph[0],
+                           bokehScriptComponent=graph[1],
+                           bokehDivComponent=graph[2],
                            redirectHoovering=redirectHoovering,
                            default=default,)
 
@@ -181,6 +186,9 @@ def upload():
                            fDeleteWeight=fDeleteWeight,
                            fEditWeight=fEditWeight,
                            weights=formatW(weights),
+                           cdn_javascript=graph[0],
+                           bokehScriptComponent=graph[1],
+                           bokehDivComponent=graph[2],
                            redirectHoovering=redirectHoovering,)
 
 

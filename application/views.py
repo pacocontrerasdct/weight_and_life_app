@@ -8,7 +8,7 @@ from flask_login import current_user, login_required, logout_user
 from flask import current_app as app
 from application.models import db, Subscriptor
 from application.meta_tags_dict import metaTags
-from application.graph_historical import graphHistorical
+from application.graph_historical import plotWeightsAndTrips
 from application.trip.crudAirport import readAirportList
 
 from application.general_forms import UploadFileForm
@@ -92,7 +92,7 @@ def historical():
     titleText = metaTags["historical"]["pageTitleDict"]
     headerText = metaTags["historical"]["headerDict"]
 
-    graph = graphHistorical()
+    graph = plotWeightsAndTrips()
 
     return render_template("historical.html",
                            titleText=titleText,

@@ -21,12 +21,10 @@
 
     </div>
     <div class="col-xs-12 col-md-10 bg-img-trips">
-        <div class="col-xs-12 col-md-8 border-one">
-            {% include "trip/bokeh-graph.html" ignore missing with context %}
+        <div class="col-xs-12 col-md-8">
+            {% include "trip/trips-graph.html" ignore missing with context %}
         </div>
-         <div class="col-xs-12 col-md-4 border-one">
-            
-
+        <div class="col-xs-12 col-md-4">
             {% if fUploadFile %}
                 {% include "trip/upload-file.html" ignore missing with context %}
             {% else %}

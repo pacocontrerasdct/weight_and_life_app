@@ -1,14 +1,11 @@
-import numpy as np
 import datetime
-import matplotlib.pyplot as plt
 
 from datetime import date
 from flask import current_app as app
 from pandas import pandas as pd
 
 from bokeh.io import curdoc
-from bokeh.layouts import gridplot
-from bokeh.plotting import figure, output_file, show
+from bokeh.plotting import figure
 from bokeh.resources import CDN
 from bokeh.embed import components
 from bokeh.models import (BoxSelectTool,
@@ -16,39 +13,60 @@ from bokeh.models import (BoxSelectTool,
                           WheelZoomTool,
                           BoxZoomTool,
                           ResetTool,
-                          HoverTool,
-                          Circle,
-                          Line,
-                          ColumnDataSource, Grid, LinearAxis, Plot)
+                          HoverTool)
 
-def gTest():
 
-    graph = []
+def tripsPlot():
 
-    df_trips = pd.read_sql_table('trips',
-                           app.config['SQLALCHEMY_DATABASE_URI'])
+    weights_y = None
 
-    df_trips['middle_date'] = df_trips['departure_date'] + ( ( df_trips['return_date'] - df_trips['departure_date'] ) / 2 )
-    df_trips['date_radius'] = ( df_trips['return_date'] - df_trips['departure_date'] ) / 2
-    df_trips['radius'] = df_trips['date_radius'] / pd.Timedelta(1, unit='d')
+    df_solo_trips = pd.read_sql_query("select * from trips where passenger_companion = '' ",
+                                 app.config['SQLALCHEMY_DATABASE_URI'])
 
-    print(df_trips['departure_date'])
-    print(df_trips['middle_date'])
-    print(df_trips['radius'])
-    print(df_trips['date_radius'])
+    df_companion_trips = pd.read_sql_query("select * from trips where passenger_companion != '' ",
+                                 app.config['SQLALCHEMY_DATABASE_URI'])
+    
+    if (df_solo_trips.empty == True 
+        and df_companion_trips.empty == True):
+        return ["","",""]
 
-    N = 18
-    y = np.linspace(2, 2, N)
-    sizes = df_trips['radius']
+    # Make sure we have a default bar height
+    # in case there is no Weight data to show
+    weights_y = weights_y if weights_y is not None else [0,9]
+    highestWeight_y = int(sorted(weights_y)[-1])
+    lowestWeight_y = int(sorted(weights_y)[0])
 
-    x = df_trips['middle_date'].to_numpy()
-    xx = df_trips['departure_date'].apply(lambda x: x.year)
+    # tripsBarHeight = height of the vertical bar 
+    #                   which depends on max height of weights_y
+    #                   + 10%
+    # tripsBarStart = left start of the bar
+    # tripsBarEnd = right end of the bar
+    # tripsBarColors = global if one "color",
+    #                   individual if an array
+    #                   ["color_1", "color_2" [,...]]
 
-    source = ColumnDataSource(dict(x=x,
-                                   y=y,
-                                   sizes=df_trips['radius']))
+    # Solo trips horizontal bars data
+    tripsBarHeight = (highestWeight_y - lowestWeight_y) + (highestWeight_y - lowestWeight_y)*0.1
+    tripsBarStart = df_solo_trips['departure_date']
+    tripsBarEnd = df_solo_trips['return_date']
+    tripsBarColors = "red" # Or individual colors for each value ["Cyan", "red",...]
 
-    hover = HoverTool(tooltips=[(("Date"), "@xx")])
+    # Group trips horizontal bars data
+    tripsBarGroupStart = df_companion_trips['departure_date']
+    tripsBarGroupEnd = df_companion_trips['return_date']
+    tripsBarGroupColors = "blue"
+
+    # designing the plot style and information
+    hover = HoverTool(show_arrow=True,
+                      point_policy='follow_mouse',
+                      tooltips=[
+                      ("Trip from", " @left{%F}"),
+                      ("to", " @right{%F}")],
+                      formatters={
+                        # use 'datetime' formatter for 'date' fields
+                        # default 'numeral' formatter for other fields            
+                        '@left' : 'datetime',
+                        '@right' : 'datetime'})
     box = BoxSelectTool()
     wheel = WheelZoomTool()
     panTool = PanTool()
@@ -57,237 +75,33 @@ def gTest():
 
     TOOLS = [hover, box, wheel, panTool, boxZoomTool, resetTool]
 
-    plot_trip = Plot(title=None,
-                       plot_width=650,
-                       plot_height=450,
-                       sizing_mode='scale_both',
-                       tools=TOOLS)
-
-    glyph = Circle(x="x",
-                   y="y",
-                   size="sizes",
-                   line_color="#CCCCCC",
-                   fill_color="red",
-                   line_width=3)
-
-    plot_trip.add_glyph(source, glyph)
-
-
-
-
-
-    x = [1,2,3,4,5]
-    y = [2,4,6,8,10]
-
-    fig = figure(title = 'Line Plot example', x_axis_label = 'x', y_axis_label = 'y', plot_width = 400, plot_height = 400)
-    fig.line(x,y)
-    fig.hbar(y = [2,2,2,2], height = 1, left = 0, right = [1,.2,.3,.4], color = "Cyan")
-
-    curdoc().add_root(fig)
-
-    cdn_javascript = CDN.js_files[0]
-    bokehScriptComponent, bokehDivComponent = components(fig)
-    graph = [cdn_javascript, bokehScriptComponent, bokehDivComponent]
-
-    return graph
-
-
-
-def twoPlotsSameFig():
-
-    # designing the plot style and information
-    fig = figure(title = 'Line Plot example',
+    fig = figure(title = 'Trips dates',
                  x_axis_label='Dates',
-                 y_axis_label='Kg',
                  x_axis_type="datetime",
                  plot_width=650,
                  plot_height=450,
-                 sizing_mode='scale_both')
+                 sizing_mode='scale_both',
+                 tools=TOOLS)
 
-    weights_y = None
-
-
-    # WEIGHTS
-    #################################
-    df_weights = pd.read_sql_query("SELECT * FROM weights ORDER BY weight_date",
-                                   app.config['SQLALCHEMY_DATABASE_URI'])
-
-    weightDates_x = [1,2,3,40,105]
-    weights_y = [2,4,6,60,20]
-
-    weightDates_x = df_weights['weight_date']
-    weights_y = df_weights['weight']
-    
-    line_color = "pink"
-    line_width = 8
-
-
-    # SOLO TRIPS 
-    #################################
-
-    df_trips = pd.read_sql_query("select * from trips where passenger_companion = '' ",
-                                 app.config['SQLALCHEMY_DATABASE_URI'])
-
-    print("df_trips ", df_trips)
-
-    if df_trips.empty == True:
-        return ["","",""]
-
-    df_trips['middle_date'] = df_trips['departure_date'] + ( ( df_trips['return_date'] - df_trips['departure_date'] ) / 2 )
-    df_trips['date_radius'] = ( df_trips['return_date'] - df_trips['departure_date'] ) / 2
-    df_trips['radius'] = df_trips['date_radius'] / pd.Timedelta(1, unit='d')
-
-    print(df_trips['departure_date'])
-    print(df_trips['middle_date'])
-    print(df_trips['radius'])
-    print(df_trips['date_radius'])
-
-
-    # tripsBarHeight = height of the vertical bar which depends on max height of weights_y + 10%
-    # tripsBarStart = left start of the bar
-    # tripsBarEnd = right end of the bar
-    # tripsBarColors = global if one "color", individual if an array ["color_1", "color_2" [,...]]
-
-    # Make sure we have a default bar height
-    # in case there is no Weight data to show
-    weights_y = weights_y if not weights_y.empty else [9]
-
-    highestWeight_y = int(sorted(weights_y)[-1])
-
-    tripsBarHeight = highestWeight_y + (highestWeight_y * 0.1)
-
-    tripsBarStart = [2,13,50,80,100]
-    tripsBarEnd = [10,22,59,92,105]
-
-    tripsBarStart = df_trips['departure_date']
-    tripsBarEnd = df_trips['return_date']
-
-    tripsBarColors = "red" # Or individual colors for each value ["Cyan", "red",...]
-
-
-    # draw horizontal bars figure
     fig.hbar(name = "red",
-             y = (tripsBarHeight/2),
+             y = highestWeight_y*0.96,
              height = tripsBarHeight,
              left = tripsBarStart,
              right = tripsBarEnd,
              color = tripsBarColors)
 
-
-   # DUO TRIPS 
-    #################################
-
-    df_trips = pd.read_sql_query("select * from trips where passenger_companion != '' ",
-                                 app.config['SQLALCHEMY_DATABASE_URI'])
-
-    df_trips['middle_date'] = df_trips['departure_date'] + ( ( df_trips['return_date'] - df_trips['departure_date'] ) / 2 )
-    df_trips['date_radius'] = ( df_trips['return_date'] - df_trips['departure_date'] ) / 2
-    df_trips['radius'] = df_trips['date_radius'] / pd.Timedelta(1, unit='d')
-
-    # Make sure we have a default bar height
-    # in case there is no Weight data to show
-    weights_y = weights_y if not weights_y.empty else [9]
-
-    highestWeight_y = int(sorted(weights_y)[-1])
-
-    tripsBarHeight = highestWeight_y + (highestWeight_y * 0.1)
-    tripsBarStart = df_trips['departure_date']
-    tripsBarEnd = df_trips['return_date']
-    tripsBarColors = "blue" # Or individual colors for each value ["Cyan", "red",...]
-
-    # draw horizontal bars figure
     fig.hbar(name = "blue",
-             y = (tripsBarHeight/2),
+             y = highestWeight_y*0.96,
              height = tripsBarHeight,
-             left = tripsBarStart,
-             right = tripsBarEnd,
-             color = tripsBarColors)
-
-
-    # draw line figure
-    fig.line(weightDates_x, weights_y, color=line_color, width=line_width)
+             left = tripsBarGroupStart,
+             right = tripsBarGroupEnd,
+             color = tripsBarGroupColors)
 
     # Technicalities to show the graph
     curdoc().add_root(fig)
 
     cdn_javascript = CDN.js_files[0]
     bokehScriptComponent, bokehDivComponent = components(fig)
-    graph = [cdn_javascript, bokehScriptComponent, bokehDivComponent]
-
-    return graph
-
-
-def graphTrips():
-    
-    graph = []
-    
-    df = pd.read_sql_table('trips',
-                           app.config['SQLALCHEMY_DATABASE_URI'])
-
-    myDates = df.sort_values(by='departure_date', ascending=True)
-
-    daysBetweenDates = myDates.return_date - myDates.departure_date
-
-    print("my dates ", myDates)
-    print("dates BETWEEN ", daysBetweenDates)
-
-    oldestYear = myDates.iloc[0].departure_date.year
-    newestYear = myDates.iloc[-1].return_date.year
-
-    print("min", oldestYear)
-    print("max", newestYear)
-    
-    print("diff", newestYear - oldestYear)
-    # print(df.shape[0])
-
-    hover = HoverTool(tooltips=[(("Date"), "@x")])
-
-    TOOLS = hover, "pan,wheel_zoom,box_zoom,reset"
-
-    yearsRange = []
-    top = []
-
-
-    for year in range(myDates.shape[0]):
-        yearsRange.append(year)
-        # diff.append(myDates.return_date - myDates.departure_date)        
-        # right.append(5)
-        # height.append(0.5)
-        top.append(1)
-
-    print(top)
-    yearsRange = myDates.loc[:, 'departure_date']
-    print("daterange ", yearsRange)
-
-    # instantiating the figure object 
-    thisGraph = figure(title = "Bokeh Horizontal Bar Graph",
-                       x_axis_type="datetime",
-                       plot_width=650,
-                       plot_height=450,
-                       sizing_mode='scale_both',
-                       tools=TOOLS)
-      
-    # name of the x-axis 
-    thisGraph.xaxis.axis_label = "Dates"          
-    # name of the y-axis 
-    # thisGraph.yaxis.axis_label = "none"
-
-    thisGraph.x_range.start = myDates.departure_date.min()
-
-    # plotting the thisGraph
-    thisGraph.vbar(x = myDates.departure_date,
-                   width = (myDates.return_date - myDates.departure_date),
-                   bottom=0,
-                   top=top,
-                   fill_color = "blue") 
-
-    cdn_javascript = CDN.js_files[0]
-    bokehScriptComponent, bokehDivComponent = components(thisGraph)
-
-    # print("cdb ", cdn_javascript)
-    # print("data ", bokehScriptComponent)
-    # print("bokehDivComponent", bokehDivComponent)
-
     graph = [cdn_javascript, bokehScriptComponent, bokehDivComponent]
 
     return graph
