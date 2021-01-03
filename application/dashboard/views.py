@@ -22,11 +22,13 @@ from application.dashboard.forms import (AddWeightForm,
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 
-from application.models import db, Admin, Weight, Trip
-
-
-from application.dashboard.crudWeight import read, insert, delete, edit, update
+from application.dashboard.crudWeight import (read,
+                                              insert,
+                                              delete,
+                                              edit,
+                                              update)
 from application.dashboard.formatWeight import formatW
+from application.dashboard.graph_weight import graphWeights
 
 titleText = metaTags['dashboard']['pageTitleDict']
 headerText = metaTags['dashboard']['headerDict']
@@ -35,6 +37,7 @@ dashboard_bp = Blueprint('dashboard_bp', __name__,
                          template_folder='templates',
                          static_folder='static')
 
+graph = graphWeights()
 
 @dashboard_bp.route("/main", methods=['GET', 'POST'])
 def dashboard():
@@ -47,6 +50,7 @@ def dashboard():
     fEditWeight = EditWeightForm()
     weights = read(current_user)
 
+    default = {}
     redirectHoovering = 'main'
 
     if request.method == 'GET' and request.args.get('id'):
@@ -55,8 +59,6 @@ def dashboard():
         default = {'id': weightId,
                    'weight': editThis.weight,
                    'date': datetime.date(editThis.weight_date)}
-    else:
-        default = {}
 
     if fAddWeight.validate_on_submit() and request.method == 'POST':
 
@@ -95,6 +97,9 @@ def dashboard():
                            fDeleteWeight=fDeleteWeight,
                            fEditWeight=fEditWeight,
                            weights=formatW(weights),
+                           cdn_javascript=graph[0],
+                           bokehScriptComponent=graph[1],
+                           bokehDivComponent=graph[2],
                            redirectHoovering=redirectHoovering,
                            default=default,)
 
@@ -118,20 +123,17 @@ def upload():
         filePath = os.path.join('application/static/uploads', fileName)
         fUploadFile.file.data.save(filePath)
 
-        print("HELLEOEL ")
-
         with open(filePath, newline='') as csvfile:
             fNames = ['weight', 'date']
             reader = csv.DictReader(csvfile, fieldnames=fNames, delimiter=';')
             rowNumber = 0
             errorRow = ""
             nl = '\n'
+            
+            details = f"""Row number {rowNumber}. Reason:"""
 
             for row in reader:
                 rowNumber = rowNumber + 1
-                details = f"""Row number {rowNumber}. Reason:"""
-
-                print(row['weight'], row['date'])
 
                 try:
                     weight = float(row['weight'])
@@ -184,6 +186,9 @@ def upload():
                            fDeleteWeight=fDeleteWeight,
                            fEditWeight=fEditWeight,
                            weights=formatW(weights),
+                           cdn_javascript=graph[0],
+                           bokehScriptComponent=graph[1],
+                           bokehDivComponent=graph[2],
                            redirectHoovering=redirectHoovering,)
 
 

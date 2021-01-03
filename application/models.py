@@ -60,7 +60,7 @@ class Admin(UserMixin, db.Model):
         backref='admin',
         cascade='all, delete, delete-orphan',
         single_parent=True,
-        order_by='desc(Trip.starting_date)'
+        order_by='desc(Trip.departure_date)'
     )
 
     def set_password(self, password):
@@ -148,25 +148,79 @@ class Trip(db.Model):
                         nullable=False,
                         default=datetime.utcnow())
 
-    starting_date = db.Column(db.DateTime,
+
+    departure_origin = db.Column(db.Integer,
+                                 index=False,
+                                 unique=False,
+                                 nullable=False)
+
+    departure_destination = db.Column(db.Integer,
+                                      index=False,
+                                      unique=False,
+                                      nullable=False)
+
+    departure_date = db.Column(db.DateTime,
+                               index=False,
+                               unique=False,
+                               nullable=False)
+
+    return_origin = db.Column(db.Integer,
                               index=False,
                               unique=False,
                               nullable=False)
 
-    ending_date = db.Column(db.DateTime,
+    return_destination = db.Column(db.Integer,
+                                   index=False,
+                                   unique=False,
+                                   nullable=False)
+
+    return_date = db.Column(db.DateTime,
                             index=False,
                             unique=False,
                             nullable=False)
 
-    from_airport = db.Column(db.String(120),
+    passenger_companion = db.Column(db.String(120),
+                                    index=False,
+                                    default="None",
+                                    unique=False,
+                                    nullable=False)
+
+    def __repr__(self):
+        return '<Trip {}>'.format(self.departure_date)
+
+
+class Airport(db.Model):
+    """Data model for Airports"""
+    __tablename__ = 'airports'
+
+    id = db.Column(db.Integer,
+                   primary_key=True)
+
+    created = db.Column(db.DateTime,
+                        index=False,
+                        unique=False,
+                        nullable=False,
+                        default=datetime.utcnow())
+
+    airport_country = db.Column(db.String(120),
+                                index=False,
+                                unique=False,
+                                nullable=False)
+
+    airport_city = db.Column(db.String(120),
+                             index=True,
+                             unique=False,
+                             nullable=False)
+
+    airport_name = db.Column(db.String(120),
                              index=False,
                              unique=False,
                              nullable=False)
 
-    to_airport = db.Column(db.String(120),
-                           index=False,
-                           unique=False,
-                           nullable=False)
+    airport_iata_identifier = db.Column(db.String(3),
+                                        index=True,
+                                        unique=False,
+                                        nullable=False)
 
     def __repr__(self):
-        return '<Trip {}>'.format(self.starting_date)
+        return '<Trip {}>'.format(self.airport_country)

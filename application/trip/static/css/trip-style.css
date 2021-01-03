@@ -1,0 +1,13 @@
+/* TRIPS SECTION
+****************************************************************/
+
+.bg-img-trips {
+    background: url('/trip/static/images/planes-wallpaper.jpg') red;
+    background-size: 900px auto;
+    min-height: 300px;
+}
+
+.border-one {
+    border: solid 2px red;
+}
+

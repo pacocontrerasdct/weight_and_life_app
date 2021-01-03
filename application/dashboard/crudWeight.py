@@ -1,4 +1,4 @@
-from application.models import db, Admin, Weight, Trip
+from application.models import db, Weight
 from datetime import datetime
 
 
@@ -11,7 +11,7 @@ def read(current_user_):
     user_id = current_user_.id
 
     return Weight.query.filter_by(admin_id=user_id).order_by(
-        Weight.weight_date.desc()).limit(5).all()
+        Weight.weight_date.desc()).all()
 
 
 def insert(current_user_, weight_, date_):
