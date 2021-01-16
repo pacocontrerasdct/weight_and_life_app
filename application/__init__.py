@@ -44,11 +44,16 @@ def create_app():
         app.register_blueprint(trip_bp,
                                url_prefix='/trip')
 
+        from application.weight.views import weight_bp
+        app.register_blueprint(weight_bp,
+                               url_prefix='/weight')
+
         # Include our Routes
         from application import views, models
         from application.auth import views
         from application.dashboard import views
         from application.trip import views
+        from application.weight import views
 
         # Create database models
         db.create_all()

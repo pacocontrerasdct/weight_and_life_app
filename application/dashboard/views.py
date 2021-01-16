@@ -40,7 +40,7 @@ dashboard_bp = Blueprint('dashboard_bp', __name__,
 graph = graphWeights()
 
 @dashboard_bp.route("/main", methods=['GET', 'POST'])
-def dashboard():
+def main():
 
     if not current_user.is_authenticated:
         return redirect(url_for('auth_bp.login'))
@@ -72,10 +72,10 @@ def dashboard():
 
             if not success:
                 flash('Couldn\'t update this weight, sorry', 'error')
-                return redirect(url_for('dashboard_bp.dashboard'))
+                return redirect(url_for('dashboard_bp.main'))
 
             flash('Weight updated successfully!', 'message')
-            return redirect(url_for('dashboard_bp.dashboard'))
+            return redirect(url_for('dashboard_bp.main'))
 
         # else insert a new record
         success = insert(
@@ -85,12 +85,12 @@ def dashboard():
 
         if not success:
             flash('Couldn\'t save new weight, sorry', 'error')
-            return redirect(url_for('dashboard_bp.dashboard'))
+            return redirect(url_for('dashboard_bp.main'))
 
         flash('Weight recorded successfully!', 'message')
-        return redirect(url_for('dashboard_bp.dashboard'))
+        return redirect(url_for('dashboard_bp.main'))
 
-    return render_template("dashboard/dashboard.html",
+    return render_template("dashboard/main.html",
                            titleText=titleText,
                            headerText=headerText,
                            fAddWeight=fAddWeight,
@@ -179,7 +179,7 @@ def upload():
             flash('File uploaded successfully!', 'message')
             return redirect(url_for('dashboard_bp.upload'))
 
-    return render_template("dashboard/dashboard.html",
+    return render_template("dashboard/main.html",
                            titleText=titleText,
                            headerText=headerText,
                            fUploadFile=fUploadFile,
@@ -210,7 +210,7 @@ def deleteWeight():
         else:
             flash('Weight deleted successfully!', 'message')
 
-    return redirect(url_for('dashboard_bp.dashboard'))
+    return redirect(url_for('dashboard_bp.main'))
 
 
 @dashboard_bp.route("/edit", methods=['POST'])
@@ -225,7 +225,7 @@ def editWeight():
 
         editThis = edit(fEditWeight.weightId.data)
 
-        return redirect(url_for('dashboard_bp.dashboard',
+        return redirect(url_for('dashboard_bp.main',
                                 id=fEditWeight.weightId.data,))
 
-    return redirect(url_for('dashboard_bp.dashboard'))
+    return redirect(url_for('dashboard_bp.main'))

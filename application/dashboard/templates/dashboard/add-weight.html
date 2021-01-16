@@ -1,5 +1,5 @@
 <h2>Add new weight record</h2>
-<form action="{{ url_for('dashboard_bp.dashboard') }}" class="margin-top-form" method="POST">
+<form action="{{ url_for('dashboard_bp.main') }}" class="margin-top-form" method="POST">
   {{ fAddWeight.csrf_token }}
   
   {{ fAddWeight.weightId(value=default.id) }}
