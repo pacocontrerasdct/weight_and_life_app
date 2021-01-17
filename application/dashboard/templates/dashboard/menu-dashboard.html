@@ -1,0 +1,10 @@
+{% block menu_dashboard %}
+<nav>
+    <ul class="nav nav-pills nav-stacked">                
+        <li><a href="{{ url_for('dashboard_bp.main') }}" class="btn btn-default" title="">Settings</a></li>
+        <li><a href="{{ url_for('weight_bp.main') }}" class="btn btn-default" title="">Weights</a></li>
+        <li><a href="{{ url_for('trip_bp.main') }}" class="btn btn-default" title="">Trips</a></li>
+        <li><a href="{{ url_for('auth_bp.logout') }}" class="btn btn-default" title="">Logout</a></li>
+    </ul>
+</nav>
+{% endblock %}

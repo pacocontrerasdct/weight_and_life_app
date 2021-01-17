@@ -10,9 +10,14 @@ metaTags = {
         "headerDict": "Chart with historic data",
     },
 
+    "weights": {
+        "pageTitleDict": "Weights since 2014",
+        "headerDict": "this is your weight area",
+    },
+
     "trips": {
         "pageTitleDict": "Trips to Spain",
-        "headerDict": "Trips",
+        "headerDict": "these are your trips' records",
     },
 
     "about": {

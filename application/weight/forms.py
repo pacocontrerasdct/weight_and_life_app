@@ -57,8 +57,35 @@ class DataValidation(object):
 dataValidation = DataValidation
 
 
+class AddWeightForm(FlaskForm):
+
+    weightId = HiddenField('weightId',
+                           default={},)
+    weight = DecimalField('Weight',
+                          places=3,
+                          validators=[InputRequired(),
+                                      dataValidation.is_valid_weight],
+                          default={},)
+    weightDate = DateField('Date',
+                           format='%Y-%m-%d',
+                           validators=[InputRequired(),
+                                       dataValidation.is_valid_date],
+                           default={},)
+    submit = SubmitField('Save')
+
+
 class UploadFileForm(FlaskForm):
     file = FileField('Only admitted txt and csv files',
                      validators=[FileRequired(),
                                  FileAllowed(['txt', 'csv'], fileForbMsg)])
     submit = SubmitField('Upload')
+
+
+class DeleteWeightForm(FlaskForm):
+    weightId = HiddenField('weightId')
+    submit = SubmitField('X')
+
+
+class EditWeightForm(FlaskForm):
+    weightId = HiddenField('weightId')
+    submit = SubmitField('E')

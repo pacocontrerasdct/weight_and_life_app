@@ -48,7 +48,7 @@ def signup():
             db.session.commit()
             login_user(admin)
 
-            return redirect(url_for('dashboard_bp.dashboard'))
+            return redirect(url_for('dashboard_bp.main'))
 
         # If admin exists show error message
         flash('A admin user already exists with that email address.', 'error')
@@ -72,7 +72,7 @@ def login():
     headerText = metaTags['login']['headerDict']
 
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard_bp.dashboard'))
+        return redirect(url_for('dashboard_bp.main'))
 
     form = LoginForm()
     redirectHoovering = 'login'
@@ -86,7 +86,7 @@ def login():
 
             login_user(admin)
             next_page = request.args.get('next')
-            return redirect(next_page or url_for('dashboard_bp.dashboard'))
+            return redirect(next_page or url_for('dashboard_bp.main'))
 
         flash('Invalid user name or password', 'error')
 
