@@ -12,12 +12,16 @@
         <h1>Weights</h1>
         {% include "./dashboard/menu-dashboard.html" %}
     </div>
-    <div class="col-xs-12 col-md-10 bg-img-trips">
-        <div class="col-xs-12 col-md-8">
-            Include weigths graph
+    <div class="col-xs-12 col-md-10">
+        <div class="col-xs-12 col-md-8 border-one">
+            {% include "dashboard/list-weights.html" ignore missing with context %}
         </div>
-        <div class="col-xs-12 col-md-4">
-            if include crud panel or upload
+         <div class="col-xs-12 col-md-4 border-one">
+            {% if fUploadFile %}
+                {% include "dashboard/upload-file.html" ignore missing with context %}
+            {% else %}
+                {% include "dashboard/add-weight.html" ignore missing with context %}
+            {% endif %}
         </div>       
     </div>
   </div>
