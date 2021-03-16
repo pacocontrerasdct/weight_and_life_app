@@ -25,7 +25,7 @@ def tripsPlot():
 
     df_companion_trips = pd.read_sql_query("select * from trips where passenger_companion != '' ",
                                  app.config['SQLALCHEMY_DATABASE_URI'])
-    
+
     if (df_solo_trips.empty == True 
         and df_companion_trips.empty == True):
         return ["","",""]

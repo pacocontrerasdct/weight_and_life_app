@@ -7,7 +7,16 @@
     min-height: 300px;
 }
 
-.border-one {
-    border: solid 2px red;
+.border-grey {
+    border: solid 2px darkgrey;
 }
 
+.border-top-sm {
+    border-top: solid 1px lightgrey;
+    margin-top: 5px;
+}
+
+.border-top-md {
+    border-top: solid 3px darkgrey;
+    margin-top: 10px;
+}
