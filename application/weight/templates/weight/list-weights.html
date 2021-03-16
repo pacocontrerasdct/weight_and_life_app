@@ -9,7 +9,7 @@
             <form action="{{ url_for('weight_bp.editWeight') }}" class="crud-form" method="POST">
               {{ fEditWeight.weightId(value=w.id) }}
               {{ fEditWeight.submit(class='btn btn-default', title='Edit this weight') }}   
-            </form> 
+            </form>
             {{ fDeleteWeight.csrf_token }}           
             <form action="{{ url_for('weight_bp.deleteWeight') }}" class="crud-form" method="POST">
               {{ fDeleteWeight.weightId(value=w.id) }}
