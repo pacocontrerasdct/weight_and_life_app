@@ -1,11 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_login import LoginManager
 from application.errors import ErrorsHandle
 
 # Create an specific postgresql object to use on our app
 # Globally accessible libraries/ plugins
 db = SQLAlchemy()
+migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
 
@@ -19,6 +21,7 @@ def create_app():
 
     # Initialise Plugins
     db.init_app(app)
+    migrate.init_app(app, db)
     login_manager.init_app(app)
     errorHandler = ErrorsHandle(app)
 
