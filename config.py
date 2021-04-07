@@ -9,7 +9,7 @@ class Config:
     """Set Flask configuration variables from .env file."""
 
     # General Flask config
-    MAX_CONTENT_LENGTH = 1 * 1024 * 1024  # Max size 1MB
+    MAX_CONTENT_LENGTH = 1 * 1024 * 1024  # File upload max size 1MB
     SECRET_KEY = environ.get('SECRET_KEY')
     FLASK_ENV = environ.get('FLASK_ENV')
     FLASK_APP = 'wsgi.py'
