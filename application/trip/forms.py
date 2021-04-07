@@ -1,6 +1,6 @@
 """CRUD forms for trips"""
+import datetime
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import (StringField,
                      DateField,
                      HiddenField,
@@ -13,10 +13,7 @@ from wtforms.validators import (InputRequired,
                                 Optional,
                                 ValidationError,
                                 StopValidation)
-import datetime
 from datetime import datetime as dt
-from markupsafe import Markup
-
 from application.trip.crudAirport import readAirport, readAirportList
 
 airportsList = readAirportList()
@@ -76,8 +73,9 @@ class AddTripForm(FlaskForm):
 
     errors = set()
 
-    default = readAirport(airport_city='Select one').id
+    airport_ = readAirport(airport_city='Select one')
 
+    default = airport_.id if airport_ else ''
 
     tripId = HiddenField('tripId',
                            default={},)
@@ -143,12 +141,6 @@ class AddTripForm(FlaskForm):
 class EditTripForm(FlaskForm):
     tripId = HiddenField('tripId')
     submit = SubmitField('Edit')
-
-
-class UpdateTripForm(FlaskForm):
-    tripId = HiddenField('tripId')
-    tripFormData = HiddenField('tripFormData')
-    submit = SubmitField('Update')
 
 
 class DeleteTripForm(FlaskForm):

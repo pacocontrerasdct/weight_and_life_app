@@ -1,6 +1,4 @@
 import datetime
-
-from datetime import date
 from flask import current_app as app
 from pandas import pandas as pd
 
@@ -15,19 +13,28 @@ from bokeh.models import (BoxSelectTool,
                           ResetTool,
                           HoverTool)
 
-
 def tripsPlot():
 
     weights_y = None
 
-    df_solo_trips = pd.read_sql_query("select * from trips where passenger_companion = '' ",
-                                 app.config['SQLALCHEMY_DATABASE_URI'])
+    df_solo_trips = []
+    df_companion_trips = []
 
-    df_companion_trips = pd.read_sql_query("select * from trips where passenger_companion != '' ",
+    try:
+        df_solo_trips = pd.read_sql_query("select * from trips where passenger_companion = '' ",
                                  app.config['SQLALCHEMY_DATABASE_URI'])
+    except Exception as e:
+        pass
 
-    if (df_solo_trips.empty == True 
-        and df_companion_trips.empty == True):
+    try:
+        df_companion_trips = pd.read_sql_query("select * from trips where passenger_companion != '' ",
+                                 app.config['SQLALCHEMY_DATABASE_URI'])
+    except Exception as e:
+        pass
+
+
+    if (len(df_solo_trips) == 0 
+        and len(df_companion_trips) == 0):
         return ["","",""]
 
     # Make sure we have a default bar height
