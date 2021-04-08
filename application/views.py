@@ -1,7 +1,6 @@
 """Routes for core application."""
 import operator
-import os
-import csv
+
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user, login_required, logout_user
 
@@ -9,7 +8,6 @@ from flask import current_app as app
 from application.models import db, Subscriptor
 from application.meta_tags_dict import metaTags
 from application.graph_historical import plotWeightsAndTrips
-from application.trip.crudAirport import readAirportList
 
 from application.general_forms import UploadFileForm
 from werkzeug.utils import secure_filename
@@ -23,36 +21,10 @@ def index():
     titleText = metaTags["index"]["pageTitleDict"]
     headerText = metaTags["index"]["headerDict"]
 
-    hasAirportListBeenLoaded = loadAirportsList()
-
     return render_template("index.html",
                            titleText=titleText,
                            headerText=headerText,
                            redirectHoovering='/')
-
-def loadAirportsList():
-    airportsList = readAirportList()
-
-    if len(airportsList) == 0:
-
-        fileName = 'airport_list_dataset.csv'
-        filePath = os.path.join('application/static/uploads/', fileName)
-
-        with open(filePath, newline='') as csvfile:
-            fNames = ['airport_country', 'airport_city', 'airport_name', 'iata_identifier']
-            reader = csv.DictReader(csvfile, fieldnames=fNames, delimiter=';')
-
-            for row in reader:
-                countryFromRow = row['airport_country']
-                cityFromRow = row['airport_city']
-                airportFromRow = row['airport_name']
-                identifierFromRow = row['iata_identifier']
-
-                success = insertAirport(countryFromRow, cityFromRow, airportFromRow, identifierFromRow)
-
-                if not success:
-                    flash('Something went wrong loading the airports list.',
-                          'error')
 
 
 @app.route("/thank-you", methods=['POST'])

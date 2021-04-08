@@ -1,0 +1,34 @@
+<form action="{{ url_for('trip_bp.add') }}" class="margin-top-form" method="POST">
+    {{ fAddTrip.csrf_token }}
+    {{ fAddTrip.tripId }}
+    <div class="col-xs-12 col-md-4">
+        <h2>Departure</h2>
+        <div class="form-group">
+            {{ fAddTrip.departure_origin.label }}
+            {{ fAddTrip.departure_origin(class='form-control', placeholder='From') }}
+            {{ fAddTrip.departure_destination.label }}
+            {{ fAddTrip.departure_destination(class='form-control', placeholder='To') }}
+            {{ fAddTrip.departure_date.label }}
+            {{ fAddTrip.departure_date(class='form-control', placeholder='2000-01-01') }}
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <h2>Return</h2>
+        <div class="form-group">
+            {{ fAddTrip.return_origin.label }}
+            {{ fAddTrip.return_origin(class='form-control', placeholder='From') }}
+            {{ fAddTrip.return_destination.label }}
+            {{ fAddTrip.return_destination(class='form-control', placeholder='To') }}
+            {{ fAddTrip.return_date.label }}
+            {{ fAddTrip.return_date(class='form-control', placeholder='2000-01-01') }}
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+        <h2>Trip</h2>
+        <div class="form-group">
+            {{ fAddTrip.passenger_companion.label }}
+            {{ fAddTrip.passenger_companion(class='form-control', placeholder='Comma separated names or empty') }}
+            {{ fAddTrip.submit(class='btn btn-primary btn-lg btn-huge margin-top-form pull-right') }}
+        </div>
+    </div>
+</form>

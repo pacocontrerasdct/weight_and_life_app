@@ -15,7 +15,7 @@
     <div class="container">
         <!-- Stack the columns on mobile by making one full-width and the other half-width -->
         <div class="row">
-          <div class="col-xs-18 col-md-12">
+          <div class="col-xs-12 col-md-12">
             <header><h1 class="logo">Weight versus [...]</h1></header>
             
             <nav class="navbar navbar-default navbar-fixed-top">
@@ -35,7 +35,7 @@
             {% if messages %}
             <!-- UX - Messages, warnings or errors -->
             <div class="hoovering">
-              <a href="{{ redirectHoovering | safe}}" class="close" >X</a>
+              <a href="{{ redirectHoovering | safe}}{{ success | safe }}" class="close" >X</a>
               {% for category, message in messages %}
                 <span>{{ message }}</span>
               {% endfor %}

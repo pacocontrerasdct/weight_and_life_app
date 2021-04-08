@@ -1,44 +1,47 @@
-<form action="{{ url_for('trip_bp.main') }}" class="margin-top-form" method="POST">
+<form action="{{ url_for('trip_bp.edit') }}" class="" method="POST">
     {{ fAddTrip.csrf_token }}
-
-    {{ fAddTrip.tripId(value=default.id) }}
-
-    <h2>Departure</h2>
+    {{ fAddTrip.tripId }}
+    <h3>Edit departure details</h3>
     <div class="form-group">
-        {{ fAddTrip.departure_origin.label }} {{ fAddTrip.departure_origin(class='form-control', placeholder='From', value=default.departure_origin) }}
-
-        {{ fAddTrip.departure_destination.label }} {{ fAddTrip.departure_destination(class='form-control', placeholder='To', value=default.departure_destination) }}
-
-        {{ fAddTrip.departure_date.label }} {{ fAddTrip.departure_date(class='form-control', placeholder='2000-01-01', value=default.date) }}
+        {{ fAddTrip.departure_origin.label }}
+        {{ fAddTrip.departure_origin(class='form-control', placeholder='From') }}
+        {{ fAddTrip.departure_destination.label }}
+        {{ fAddTrip.departure_destination(class='form-control', placeholder='To') }}
+        {{ fAddTrip.departure_date.label }}
+        {{ fAddTrip.departure_date(class='form-control', placeholder='2000-01-01') }}
     </div>
-
-    <h2>Return</h2>
+    <h3>Edit return details</h3>
     <div class="form-group">
-
-        {{ fAddTrip.return_origin.label }} {{ fAddTrip.return_origin(class='form-control', placeholder='From', value=default.return_origin) }}
-
-        {{ fAddTrip.return_destination.label }} {{ fAddTrip.return_destination(class='form-control', placeholder='To', value=default.return_destination) }}
-
-        {{ fAddTrip.return_date.label }} {{ fAddTrip.return_date(class='form-control', placeholder='2000-01-01', value=default.date) }}
-
+        {{ fAddTrip.return_origin.label }}
+        {{ fAddTrip.return_origin(class='form-control', placeholder='From') }}
+        {{ fAddTrip.return_destination.label }}
+        {{ fAddTrip.return_destination(class='form-control', placeholder='To') }}
+        {{ fAddTrip.return_date.label }}
+        {{ fAddTrip.return_date(class='form-control', placeholder='2000-01-01') }}
     </div>
-
-    <h2>Trip Companions</h2>
+    <h3>Edit companions</h3>
     <div class="form-group">
-
-        {{ fAddTrip.passenger_companion.label }} {{ fAddTrip.passenger_companion(class='form-control', placeholder='Comma separated names or empty', value=default.passenger_companion) }}
-
+        {{ fAddTrip.passenger_companion.label }}
+        {{ fAddTrip.passenger_companion(class='form-control', placeholder='Comma separated names or empty') }}
     </div>
-
-    {{ fAddTrip.submit(class='btn btn-default pull-right') }}
-
-</form>
-<br>
-<div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-secondary">Add</button>
-    <button type="button" class="btn btn-secondary">Edit</button>
-    <button type="button" class="btn btn-secondary">Remove</button>
-</div>
-<div class="margin-top-form">
-    <p><a href="{{ url_for('trip_bp.upload') }}" class="font-weight-bold">Upload a file instead.</a></p>
-</div>
+    <br>
+    <div class="btn-group pull-right" role="group">
+            {{ fAddTrip.tripId(value=fAddTrip.tripId.data) }}
+            <button type="submit" class="btn btn-info float-right" title="Update trip">
+                <span class="hidden">Confirm</span> <!-- if css disabled show this -->
+                <span class="glyphicon glyphicon-ok"></span>
+            </button>
+        </form>
+        <a role="button" class="btn btn-info" href="{{ url_for('trip_bp.main') }}" target="_self" title="Cancel">
+            <span class="hidden">Cancel</span> <!-- if css disabled show this -->
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+        {{ fDeleteTrip.csrf_token }}    
+        <form action="{{ url_for('trip_bp.delete') }}" class="btn-group" method="POST">
+            {{ fDeleteTrip.tripId(value=fAddTrip.tripId.data) }}
+            <button type="submit" class="btn btn-info float-right" title="Delete this trip.">
+                <span class="hidden">Delete</span> <!-- if css disabled show this -->
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+        </form>
+    </div>

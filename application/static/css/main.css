@@ -17,7 +17,7 @@ img {
  * Formatting the header area
  */
 header {
-    background-color: #DFB887;
+    background-color: #5bc0de;
     height: 100px;
     opacity: .9;
     margin-bottom: 10px;
@@ -107,9 +107,20 @@ aside {
 }
 
 footer {
-    background-color: #ffddb3;
+    background-color: #5bc0de;
     margin-top: 30px;
     padding: 10px;
+}
+
+.simple-submit {
+    border: none;
+    background-color: transparent;
+    text-decoration: none;
+    color: #428bca;
+}
+
+.simple-submit:hover {
+    text-decoration: underline;
 }
 
 /*flash categories styles*/
@@ -164,6 +175,10 @@ footer {
     margin-top: 20px;
 }
 
+.btn-huge{
+    padding: 1em 2.75em;
+}
+
 /* Listing weights 
 ****************************************************************/
 .row-separated {
@@ -197,4 +212,5 @@ footer {
 ul > li + hr {
     clear: both;
 }
+
 

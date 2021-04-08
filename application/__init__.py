@@ -1,13 +1,17 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_login import LoginManager
 from application.errors import ErrorsHandle
+from flask_seeder import FlaskSeeder
 
 # Create an specific postgresql object to use on our app
 # Globally accessible libraries/ plugins
 db = SQLAlchemy()
+migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
+seeder = FlaskSeeder()
 
 
 def create_app():
@@ -19,8 +23,10 @@ def create_app():
 
     # Initialise Plugins
     db.init_app(app)
+    migrate.init_app(app, db)
     login_manager.init_app(app)
     errorHandler = ErrorsHandle(app)
+    seeder.init_app(app, db)
 
     # Any part of our app which is not imported, or registered
     # within the 'with app.app_context()' block

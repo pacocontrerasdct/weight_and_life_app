@@ -5,24 +5,46 @@
       <h3 class="pull-right">{% block headerText %}{{ current_user.name | safe }}, {{ headerText | safe }}{% endblock %}</h3>
     </div>
   </div>
-
   <div class="row">
     <div class="col-xs-12 col-md-2">
         <h1>Trips</h1>
         {% include "./dashboard/menu-dashboard.html" %}
     </div>
-    <div class="col-xs-12 col-md-10 bg-img-trips">
-        <div class="col-xs-12 col-md-8">
-            {% include "trip/trips-graph.html" ignore missing with context %}
+    <div class="col-xs-12 col-md-10">
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="margin-top-form pull-right">
+                    {% if fUploadFile %}
+                        <span><a href="{{ url_for('trip_bp.main') }}" class="font-weight-bold">Return to the trips list.</a></span>
+                    {% else %}
+                        <span><a href="{{ url_for('trip_bp.upload') }}" class="font-weight-bold">Upload a file with your data.</a></span>
+                    {% endif %}
+
+                    {% if showGraph %}
+                        <span><a href="{{ url_for('trip_bp.main') }}" class="font-weight-bold">Return to the trips list.</a></span>
+                    {% else %}
+                        <span><a href="{{ url_for('trip_bp.main') }}?graph=true" class="font-weight-bold">Show trips graph.</a></span>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-        <div class="col-xs-12 col-md-4">
-            {% if fUploadFile %}
-                {% include "trip/upload-file.html" ignore missing with context %}
-            {% else %}
-                {% include "trip/edit-panel.html" ignore missing with context %}
-            {% endif %}
-        </div>       
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                {% if editThisTrip %}
+                    {% include "trip/edit-panel.html" ignore missing with context %}
+                {% elif showGraph %}
+                    {% include "trip/trips-graph.html" ignore missing with context %}
+                    {% include "trip/add-trip.html" ignore missing with context %}
+                {% elif fUploadFile %}
+                    {% include "trip/upload-file.html" ignore missing with context %}
+                {% else %}
+                    {% include "trip/list-trips.html" ignore missing with context %}
+                    {% include "trip/add-trip.html" ignore missing with context %}
+                {% endif %}
+            </div>
+        </div> 
     </div>
   </div>
-
 {% endblock %}
