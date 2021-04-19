@@ -61,12 +61,12 @@ class AddWeightForm(FlaskForm):
 
     weightId = HiddenField('weightId',
                            default={},)
-    weight = DecimalField('Weight',
+    weight = DecimalField('New weight',
                           places=3,
                           validators=[InputRequired(),
                                       dataValidation.is_valid_weight],
                           default={},)
-    weightDate = DateField('Date',
+    weightDate = DateField('On date',
                            format='%Y-%m-%d',
                            validators=[InputRequired(),
                                        dataValidation.is_valid_date],

@@ -14,6 +14,10 @@ from application.weight.forms import (AddWeightForm,
                                       DeleteWeightForm,
                                       EditWeightForm,
                                       DataValidation)
+
+from application.general_forms import UploadFileForm
+from werkzeug.utils import secure_filename
+
 from application.weight.crudWeight import (read,
                                            insert,
                                            delete,
@@ -42,6 +46,7 @@ def main():
     fEditWeight = EditWeightForm()
     weights = read(current_user)
     
+    fUploadFile = None
     graph = ["","",""]
     graphFlag = 0
 
@@ -53,7 +58,11 @@ def main():
         graph = graphWeights()
         graphFlag = 1
 
-    # edit a weight record
+    # show upload form if requested by user
+    if request.method == 'GET' and request.args.get('uploadForm') == "show":
+        fUploadFile = UploadFileForm()
+
+    # edit a weight record if requested by user
     if request.method == 'GET' and request.args.get('id'):
         weightId = request.args.get('id')
         editThis = edit(weightId)
@@ -63,7 +72,7 @@ def main():
 
     # update or insert a record
     if fAddWeight.validate_on_submit() and request.method == 'POST':
-
+        
         # if posted form contains a weightId, it is an update
         if fAddWeight.weightId.data:
 
@@ -97,6 +106,7 @@ def main():
                            fAddWeight=fAddWeight,
                            fDeleteWeight=fDeleteWeight,
                            fEditWeight=fEditWeight,
+                           fUploadFile=fUploadFile,
                            weights=formatW(weights),
                            showGraph=graphFlag,
                            cdn_javascript=graph[0],
@@ -144,3 +154,84 @@ def deleteWeight():
 
     return redirect(url_for('weight_bp.main'))
 
+
+@weight_bp.route("/upload", methods=['GET', 'POST'])
+def upload():
+
+    if not current_user.is_authenticated:
+        return redirect(url_for('auth_bp.login'))
+
+    fUploadFile = UploadFileForm()
+
+    redirectHoovering = 'upload'
+    details = ""
+    uploadForm = ''
+
+    if request.method == 'POST' and fUploadFile.validate_on_submit():
+
+        fileName = secure_filename(fUploadFile.file.data.filename)
+        filePath = os.path.join('application/static/uploads', fileName)
+        fUploadFile.file.data.save(filePath)
+
+        with open(filePath, newline='') as csvfile:
+            fNames = ['weight', 'date']
+            reader = csv.DictReader(csvfile, fieldnames=fNames, delimiter=';')
+            rowNumber = 0
+            errorRow = ""
+            nl = '\n'
+            
+            details = f"""Row number {rowNumber}. Reason:"""
+
+            for row in reader:
+                rowNumber = rowNumber + 1
+
+                try:
+                    weight = float(row['weight'])
+                    dateFromRow = datetime.strptime((row['date']), '%Y/%m/%d')
+                    today = datetime.now()
+
+                    if float(row['weight']) < 20 or float(row['weight']) > 200:
+                        e = "Weight out of range from 20 to 200 Kg."
+                        errorRow += f"""{details} {e}{nl}"""
+
+                    if today < dateFromRow:
+                        e = "Date can't be in the future."
+                        errorRow += f"""{details} {e}{nl}"""
+
+                except Exception as e:
+                    errorRow += f"""{details} {e}{nl}"""
+
+            if errorRow != "":
+                errorMsg = f"""File hasn't been proccessed!{nl}""" \
+                            f"""Couldn't save new data.{nl}""" \
+                            f"""{errorRow}"""
+
+                flash(errorMsg, 'error')
+                return redirect(url_for('weight_bp.upload'))
+
+            # if all imported data is correct, save it to the db
+            with open(filePath, newline='') as csvfile:
+                fNames = ['weight', 'date']
+                reader = csv.DictReader(
+                    csvfile, fieldnames=fNames, delimiter=';')
+
+                for row in reader:
+                    weightFromRow = float(row['weight'])
+                    dateFromRow = datetime.strptime((row['date']), '%Y/%m/%d')
+                    success = insert(current_user, weightFromRow, dateFromRow)
+
+                    if not success:
+                        details = "{{ weightFromRow }} ; {{ dateFromRow }}"
+                        flash('Something went wrong with data {{ details }}',
+                              'error')
+                        return redirect(url_for('weight_bp.upload'))
+
+            flash('File uploaded successfully!', 'message')
+            return redirect(url_for('weight_bp.upload'))
+
+    return redirect(url_for('weight_bp.main', uploadForm='show'))
+    # return render_template("weight/main.html",
+    #                        titleText=titleText,
+    #                        headerText=headerText,
+    #                        fUploadFile=fUploadFile,
+    #                        redirectHoovering=redirectHoovering)

@@ -1,31 +1,30 @@
-<h2>Add new weight record</h2>
+<h2>Add a new weight</h2>
 <form action="{{ url_for('weight_bp.main') }}" class="margin-top-form" method="POST">
   {{ fAddWeight.csrf_token }}
   
   {{ fAddWeight.weightId(value=default.id) }}
 
   <div class="form-group">
-    {{ fAddWeight.weight.label }}
+    {{ fAddWeight.weight.label(class='pull-right') }}
     {{ fAddWeight.weight(class='form-control', placeholder='0.000', value=default.weight) }}
   </div>
 
   <div class="form-group">
-    {{ fAddWeight.weightDate.label }}
+    {{ fAddWeight.weightDate.label(class='pull-right') }}
     {{ fAddWeight.weightDate(class='form-control', placeholder='2000-01-01', value=default.date) }}
   </div>
 
-  {{ fAddWeight.submit(class='btn btn-default', title='Save new weight') }}
+    <a role="button" class="btn btn-info pull-right" href="{{ url_for('weight_bp.main') }}" target="_self" title="Cancel">
+        <span class="hidden">Cancel</span> <!-- if css disabled show this -->
+        <span class="glyphicon glyphicon-remove"></span>
+    </a>
+
+    <button type="submit" class="btn btn-info pull-right">
+        <span class="hidden">Save</span> <!-- if css disabled show this -->
+        <span class="glyphicon glyphicon-ok" title="Save new weight"></span>
+    </button>
 
 </form>
-
-<div class="margin-top-form">
-        {% if showGraph %}
-            <a href="{{ url_for('weight_bp.main') }}" method="GET">Return to the weight list.</a>
-        {% else %}
-            <a href="{{ url_for('weight_bp.main') }}?graph=true" method="GET">Show weights graph.</a>
-        {% endif %}
-</div>
-
 
 {% if fAddWeight.weight.errors or fAddWeight.weightDate.errors %}
   {% set errors = fAddWeight.weight.errors if fAddWeight.weight.errors else fAddWeight.weightDate.errors %}
