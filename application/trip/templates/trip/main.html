@@ -12,20 +12,20 @@
     </div>
     <div class="col-xs-12 col-md-10">
         <div class="row">
-            <div class="col-xs-12 col-md-6">
+            <div class="col-xs-12 col-md-4">
             </div>
-            <div class="col-xs-12 col-md-6">
+            <div class="col-xs-12 col-md-8">
                 <div class="margin-top-form pull-right">
                     {% if fUploadFile %}
-                        <span><a href="{{ url_for('trip_bp.main') }}" class="font-weight-bold">Return to the trips list.</a></span>
+                        <span><a href="{{ url_for('trip_bp.main') }}" class="font-lg">Return to the trips list.</a></span>
                     {% else %}
-                        <span><a href="{{ url_for('trip_bp.upload') }}" class="font-weight-bold">Upload a file with your data.</a></span>
+                        <span><a href="{{ url_for('trip_bp.upload') }}" class="font-lg">Upload a file with your data.</a></span>
                     {% endif %}
 
                     {% if showGraph %}
-                        <span><a href="{{ url_for('trip_bp.main') }}" class="font-weight-bold">Return to the trips list.</a></span>
+                        <span><a href="{{ url_for('trip_bp.main') }}" class="font-lg">Return to the trips list</a></span>
                     {% else %}
-                        <span><a href="{{ url_for('trip_bp.main') }}?graph=true" class="font-weight-bold">Show trips graph.</a></span>
+                        <span><a href="{{ url_for('trip_bp.main') }}?graph=true" class="font-lg">Show trips graph</a></span>
                     {% endif %}
                 </div>
             </div>

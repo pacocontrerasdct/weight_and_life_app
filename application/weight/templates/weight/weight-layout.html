@@ -1,1 +1,5 @@
 {% extends "layout.html" %}
+
+{% block static %}
+    <link rel="stylesheet" href="{{ url_for('weight_bp.static', filename='css/weight-style.css') }}">
+{% endblock %}

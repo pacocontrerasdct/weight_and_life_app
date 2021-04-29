@@ -1,0 +1,25 @@
+/* WEIGHTS SECTION
+****************************************************************/
+
+table {
+    max-width: 100%;
+    width: 100%;
+}
+
+hr {
+    margin-bottom: 0px;
+}
+
+.border-grey {
+    border: solid 2px darkgrey;
+}
+
+.border-top-sm {
+    border-top: solid 1px lightgrey;
+    margin-top: 5px;
+}
+
+.border-top-md {
+    border-top: solid 3px darkgrey;
+    margin-top: 10px;
+}

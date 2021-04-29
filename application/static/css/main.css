@@ -213,4 +213,12 @@ ul > li + hr {
     clear: both;
 }
 
+.clear-both {
+    clear: both;
+    float: right;
+}
+
+.font-lg {
+    font-size: 1.6rem;
+}
 

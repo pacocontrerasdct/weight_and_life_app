@@ -1,0 +1,21 @@
+<h2>Upload your weights</h2>
+<form action="{{ url_for('weight_bp.upload') }}" class="margin-top-form" method="POST" enctype="multipart/form-data">
+    {{ fUploadFile.csrf_token }}
+    <div class="form-group">
+    {{ fUploadFile.file.label(class='pull-right') }}
+    {{ fUploadFile.file(class='form-control') }}
+    </div>
+    <button type="submit" class="btn btn-info pull-right">
+        <span class="hidden">Upload</span> <!-- if css disabled show this -->
+        <span class="glyphicon glyphicon-arrow-up" title="Upload your file now"></span>
+    </button>
+</form>
+
+{% if fUploadFile.file.errors %}
+  <div class="hoovering">
+    <a href="{{ redirectHoovering | safe}}" class="close" >X</a>
+    {% for error in fUploadFile.file.errors %}
+    <h5>{{ error }}</h5>
+    {% endfor %}
+  </div>
+{% endif %}

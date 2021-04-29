@@ -1,24 +1,62 @@
-<h3>List of weights</h3>
-<div class="weight-list">
-    {{ fDeleteWeight.csrf_token }}
-    <ul>
-      {% if weights %}
-        {% for w in weights %}
-          <li>
-            {{ fEditWeight.csrf_token }}
-            <form action="{{ url_for('weight_bp.editWeight') }}" class="crud-form" method="POST">
-              {{ fEditWeight.weightId(value=w.id) }}
-              {{ fEditWeight.submit(class='btn btn-default', title='Edit this weight') }}   
-            </form>
-            {{ fDeleteWeight.csrf_token }}           
-            <form action="{{ url_for('weight_bp.deleteWeight') }}" class="crud-form" method="POST">
-              {{ fDeleteWeight.weightId(value=w.id) }}
-              {{ fDeleteWeight.submit(class='btn btn-default', title='Delete this weight') }}   
-            </form>
-            <span class="crud-span">{{ w.weight }} Kg on {{ w.weight_date}}</span>
-          </li>
-          <hr class="row-separated">
-        {% endfor %}
-      {% endif %}
-    </ul>
-</div>
+<table>
+    <tr><td>
+        <div class="col-md-4 hidden-sm hidden-xs">
+        </div>
+        <div class="col-md-4 hidden-sm hidden-xs">
+            <h4><span class="label label-default">WEIGHT</span></h4>
+        </div>
+        <div class="col-md-4 hidden-sm hidden-xs">
+            <h4><span class="label label-default">DATE</span></h4>
+        </div>
+    </td></tr>
+    <tr><td>
+        <div class="hidden-xl hidden-lg hidden-md col-sm-12 col-xs-12">
+            <h5><span class="label label-default">WEIGHT</span>
+
+            <span class="label label-default crud-span">DATE</span></h5>
+        </div>
+        <div class="weight-list">
+            {{ fDeleteWeight.csrf_token }}
+            <ul>
+              {% if weights %}
+                {% for w in weights %}
+                  <li>
+                    <div class="col-xs-2 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                        {{ fEditWeight.csrf_token }}
+                        <form action="{{ url_for('weight_bp.editWeight') }}" class="crud-form" method="POST">
+                            {{ fEditWeight.weightId(value=w.id) }}
+                            <button type="submit" class="btn btn-info float-right">
+                                <span class="hidden">Edit</span> <!-- if css disabled show this -->
+                                <span class="glyphicon glyphicon-pencil" title="Edit this weight."></span>
+                            </button>
+                        </form>
+                        {{ fDeleteWeight.csrf_token }}           
+                        <form action="{{ url_for('weight_bp.deleteWeight') }}" class="crud-form" method="POST">
+                            {{ fDeleteWeight.weightId(value=w.id) }}
+                            <button type="submit" class="btn btn-info float-right">
+                                <span class="hidden">Delete</span> <!-- if css disabled show this -->
+                                <span class="glyphicon glyphicon-trash" title="Delete this weight."></span>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-xs-5 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                        <h4>{{ w.weight }} Kg</h4>
+                    </div>
+                    <div class="col-xs-5 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                        <h4>{{ w.weight_date}}</h4>
+                    </div>
+                  </li>
+                  <hr class="border-top-sm">
+                {% endfor %}
+              {% endif %}
+            </ul>
+        </div>
+    </td></tr>    
+</table>
+
+
+
+
+
+
+

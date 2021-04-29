@@ -1,5 +1,4 @@
 {% extends "./weight/weight-layout.html" %}
-
 {% block body %}
   <div class="row">
     <div class="col-xs-12 col-md-12">
@@ -21,9 +20,29 @@
             {% endif %}
         </div>
         <div class="col-xs-12 col-md-4 border-one">
-            {% include "weight/add-weight.html" ignore missing with context %}
-        </div>       
+
+            {% if fUploadFile %}
+                {% include "weight/upload-file.html" ignore missing with context %}
+            {% else %}
+                {% include "weight/add-weight.html" ignore missing with context %}
+            {% endif %}
+
+            <div class="margin-top-form clear-both">
+                {% if showGraph and not(fUploadFile) %}
+                    <a href="{{ url_for('weight_bp.main') }}" method="GET" class="font-lg pull-right">Return to the weight list</a>
+                    <a href="{{ url_for('weight_bp.main') }}?graph=true&uploadForm=show" class="font-lg pull-right">Upload a file with your data</a>
+                {% elif showGraph and fUploadFile %}
+                    <a href="{{ url_for('weight_bp.main') }}?uploadForm=show" method="GET" class="font-lg pull-right">Return to the weight list</a>
+                    <a href="{{ url_for('weight_bp.main') }}?graph=true" class="font-lg pull-right">Add a new weight</a>
+                {% elif not (showGraph) and fUploadFile %}
+                    <a href="{{ url_for('weight_bp.main') }}?graph=true&uploadForm=show" method="GET" class="font-lg pull-right">Show weights graph</a>
+                    <a href="{{ url_for('weight_bp.main') }}" class="font-lg pull-right">Add a new weight</a>
+                {% else %}
+                    <a href="{{ url_for('weight_bp.main') }}?graph=true" method="GET" class="font-lg pull-right">Show weights graph</a>
+                    <a href="{{ url_for('weight_bp.main') }}?uploadForm=show" class="font-lg pull-right">Upload a file with your data</a>
+                {% endif %}
+            </div>
+        </div>      
     </div>
   </div>
-
 {% endblock %}
