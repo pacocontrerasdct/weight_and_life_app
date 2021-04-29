@@ -27,7 +27,7 @@
                 {% include "weight/add-weight.html" ignore missing with context %}
             {% endif %}
 
-            <div class="margin-top-form clear-both">
+            <div class="margin-top-form pull-right">
                 {% if showGraph and not(fUploadFile) %}
                     <a href="{{ url_for('weight_bp.main') }}" method="GET" class="font-lg pull-right">Return to the weight list</a>
                     <a href="{{ url_for('weight_bp.main') }}?graph=true&uploadForm=show" class="font-lg pull-right">Upload a file with your data</a>
