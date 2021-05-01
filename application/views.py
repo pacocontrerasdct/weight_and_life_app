@@ -18,11 +18,9 @@ from werkzeug.exceptions import RequestEntityTooLarge
 @app.route("/index")
 @app.route("/")
 def index():
-    titleText = metaTags["index"]["pageTitleDict"]
-    headerText = metaTags["index"]["headerDict"]
 
+    headerText = metaTags["index"]["headerDict"]
     return render_template("index.html",
-                           titleText=titleText,
                            headerText=headerText,
                            redirectHoovering='/')
 

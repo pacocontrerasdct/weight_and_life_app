@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}{{ titleText | safe }} - Life and weight balance{% endblock %}</title>
+    <title>
+        {% block title %}
+            {% if titleText %}
+                {{ titleText | safe }} - 
+            {% endif %}
+            {{ config.WEB_TITLE }}
+        {% endblock %}
+    </title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +23,7 @@
         <!-- Stack the columns on mobile by making one full-width and the other half-width -->
         <div class="row">
           <div class="col-xs-12 col-md-12">
-            <header><h1 class="logo">Weight versus [...]</h1></header>
+            <header><h1 class="logo">{{ config.WEB_HEADER_NAME }}</h1></header>
             
             <nav class="navbar navbar-default navbar-fixed-top">
                 <ul class="nav navbar-nav navbar-right">

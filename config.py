@@ -8,6 +8,10 @@ load_dotenv(path.join(basedir, '.env'))
 class Config:
     """Set Flask configuration variables from .env file."""
 
+    # Global website name
+    WEB_TITLE = 'What a Weight!'
+    WEB_HEADER_NAME = 'Weight vs Travelling'
+
     # General Flask config
     MAX_CONTENT_LENGTH = 1 * 1024 * 1024  # File upload max size 1MB
     SECRET_KEY = environ.get('SECRET_KEY')
